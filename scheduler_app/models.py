@@ -89,7 +89,7 @@ class assignmentsManager(models.Manager):
         if len(form['description']) < 10:
             errors['description'] = "Description must be at least 10 characters"
         if datetime.strptime(form['due_date'], '%Y-%m-%d') <= datetime.now():
-            errors["trip_start"] = "Due date cannot be in the past"
+            errors["due_date"] = "Due date cannot be in the past"
         return errors
 
 class assignments(models.Model):
