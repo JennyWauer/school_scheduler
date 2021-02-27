@@ -102,7 +102,7 @@ class Assignment(models.Model):
 	subject = models.ForeignKey(Subject, related_name="subject_assignments",on_delete = models.CASCADE)
 	description = models.TextField()
 	due_date = models.DateTimeField()
-	teacher = models.ForeignKey(Users, related_name="teacher_subjects",on_delete = models.CASCADE)
+	teacher = models.ForeignKey(Users, related_name="posted_assignment",on_delete = models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	objects = AssignmentManager()
