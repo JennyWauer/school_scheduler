@@ -28,7 +28,7 @@ class users(models.Model):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=255)
     role = models.CharField(max_length=10)
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = usersManager()
     def __repr__(self):
@@ -50,7 +50,7 @@ class students(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     user = models.ManyToManyField(users, related_name="user_students")
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = studentsManager()
     def __repr__(self):
@@ -66,18 +66,21 @@ class subjectManager(models.Manager):
             errors['description'] = "Description must be at least 10 characters"
         if len(form['url']) < 10:
             errors['url'] = "Description must be at least 10 characters"
+        if datetime.strptime(form['lecture_date'], '%Y-%m-%d') <= datetime.now():
+            errors["trip_start"] = "Lecture date cannot be in the past"
         return errors
 
 class subjects(models.Model):
     name = models.CharField(max_length=45)
-    description = models.TextField()
     url = models.TextField()
+    lecture_date = models.DateTimeField()
+    description = models.TextField()
     teacher = models.ForeignKey(users, related_name="teacher_subjects")
     enrolled_students = models.ManyToManyField(students, related_name="enrolled_subjects")
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = subjectManager()
-    def __repr__(self):
+    def repr(self):
         return f"<ID: ({self.id}) \nName:{self.name}>"
 
 
@@ -97,7 +100,7 @@ class assignments(models.Model):
     subject = models.ForeignKey(subjects, related_name="subject_assignments")
     description = models.TextField()
     due_date = models.DateTimeField()
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = assigntmentsManager()
     return f"<ID: ({self.id}) \nTitle:{self.title}>"
@@ -117,5 +120,5 @@ class messages(models.Model):
     message = models.TextField()
     sender = models.ForeignKey(users, related_name="sent_messages")
     recipient = models.ForeignKey(users, related_name="received_messages")
-    create_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
