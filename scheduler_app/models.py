@@ -67,13 +67,13 @@ class subjectManager(models.Manager):
         if len(form['url']) < 10:
             errors['url'] = "Description must be at least 10 characters"
         if datetime.strptime(form['lecture_date'], '%Y-%m-%d') <= datetime.now():
-            errors["trip_start"] = "Lecture date cannot be in the past"
+            errors["lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
 class subjects(models.Model):
     name = models.CharField(max_length=45)
-    url = models.TextField()
     lecture_date = models.DateTimeField()
+    url = models.TextField()
     description = models.TextField()
     teacher = models.ForeignKey(users, related_name="teacher_subjects")
     enrolled_students = models.ManyToManyField(students, related_name="enrolled_subjects")
@@ -92,7 +92,7 @@ class assignmentsManager(models.Manager):
         if len(form['description']) < 10:
             errors['description'] = "Description must be at least 10 characters"
         if datetime.strptime(form['due_date'], '%Y-%m-%d') <= datetime.now():
-            errors["trip_start"] = "Due date cannot be in the past"
+            errors["due_date"] = "Due date cannot be in the past"
         return errors
 
 class assignments(models.Model):
