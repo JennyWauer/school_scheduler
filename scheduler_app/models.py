@@ -80,7 +80,7 @@ class subjects(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = subjectManager()
-    def __repr__(self):
+    def repr(self):
         return f"<ID: ({self.id}) \nName:{self.name}>"
 
 
