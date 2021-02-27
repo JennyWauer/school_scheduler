@@ -67,7 +67,7 @@ class subjectManager(models.Manager):
         if len(form['url']) < 10:
             errors['url'] = "Description must be at least 10 characters"
         if datetime.strptime(form['lecture_date'], '%Y-%m-%d') <= datetime.now():
-            errors["trip_start"] = "Lecture date cannot be in the past"
+            errors["lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
 class subjects(models.Model):
