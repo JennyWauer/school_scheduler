@@ -107,7 +107,7 @@ class assignments(models.Model):
 		return f"<ID: ({self.id}) \nTitle:{self.title}>"
 
 
-class messagesManager(models.Manager):
+class inbox_messagesManager(models.Manager):
     def validate(self, form):
         errors = {}
         if len(form['subject']) < 0:
@@ -116,10 +116,11 @@ class messagesManager(models.Manager):
             errors['description'] = "Message field cannot be empty"
         return errors
 
-class messages(models.Model):
+class inbox_messages(models.Model):
     subject = models.CharField(max_length=255)
     message = models.TextField()
     sender = models.ForeignKey(Users, related_name="sent_messages",on_delete = models.CASCADE)
     recipient = models.ForeignKey(Users, related_name="received_messages",on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = inbox_messagesManager()
