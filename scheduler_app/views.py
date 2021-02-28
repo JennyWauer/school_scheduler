@@ -127,9 +127,16 @@ def send_message(request):
     )
 	return redirect('/profile')
 
-def delete_message(request, id):
+def delete_inbox_message(request, id):
 	destroyed = inbox_messages.objects.get(id=id)
 	user = Users.objects.get(id=request.session['user_id'])
 	if destroyed.recipient == user:
+		destroyed.delete()
+	return redirect('/profile')
+
+def delete_sent_message(request, id):
+	destroyed = inbox_messages.objects.get(id=id)
+	user = Users.objects.get(id=request.session['user_id'])
+	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')

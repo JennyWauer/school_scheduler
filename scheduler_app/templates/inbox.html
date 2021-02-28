@@ -31,7 +31,7 @@
                         <td>{{message.sender.first_name}} {{message.sender.last_name}}</td>
                         <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
                         <td>{{message.created_at}}</td>
-                        <td><a href="/message/{{message.id}}">Reply</a> | <a href="/delete_message/{{message.id}}">Delete</a></td>
+                        <td><a href="/message/{{message.id}}">Reply</a> | <a href="/delete_inbox_message/{{message.id}}">Delete</a></td>
                     </tr>
                     {% endif %}
                 {% endfor %}
@@ -56,7 +56,7 @@
                         <td>{{message.recipient.first_name}} {{message.recipient.last_name}}</td>
                         <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
                         <td>{{message.created_at}}</td>
-                        <td><a href="/delete_message/{{message.id}}">Delete</a></td>
+                        <td><a href="/delete_sent_message/{{message.id}}">Delete</a></td>
                     </tr>
                     {% endif %}
                 {% endfor %}
