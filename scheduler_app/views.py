@@ -15,8 +15,8 @@ def index(request):
 def login_reg(request):
 	return render(request, 'login_reg.html')
 
-def add_user(request):
-	return render(request, 'login_reg.html')
+# def add_user(request):
+# 	return render(request, 'login_reg.html')
 
 def logout(request):
 	request.session.flush()
