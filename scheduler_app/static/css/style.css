@@ -1,3 +1,5 @@
 .body {
     font-family: 'Noto Sans', sans-serif;
+    background-image: url("../img/home-background.jpg");
+    background-size: cover;
 }
