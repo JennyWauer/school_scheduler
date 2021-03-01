@@ -6,7 +6,7 @@ urlpatterns = [
 	path('register',views.add_user),
 	path('create_user', views.create_user),
 	path('profile', views.class_profile),
-	# path('login', views.user_login),
+	path('login', views.user_login),
 	path('logout',views.logout),
 	path('inbox/<int:id>',views.inbox),
 	path('send', views.send_message),
