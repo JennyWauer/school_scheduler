@@ -20,11 +20,11 @@ html {
     color: #252a34;
 }
 
-.login-background {
+.login-background, .new-message-background {
     background-color: #eaeaea;
 }
 
-.login-form, .message-form {
+.login-form, .new-message-form {
     background-color: white;
 }
 
