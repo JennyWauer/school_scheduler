@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Scheduler</title>
+</head>
+<body>
+    <header>
+        <h2>Hello, {{user.first_name}}</h2>
+        <a href="/profile">Home</a>
+        <a href="/logout">Logout</a>
+    </header>
+    <a href='/new_message'>Compose</a>
+    <div>
+        <h3>Inbox</h3>
+        <table>
+            <thead>
+                <tr>
+                    <td>From</td>
+                    <td>Subject</td>
+                    <td>Date</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages %}
+                    {% if message.recipient.id == user.id %}
+                    <tr>
+                        <td>{{message.sender.first_name}} {{message.sender.last_name}}</td>
+                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                        <td>{{message.created_at}}</td>
+                        <td><a href="/message/{{message.id}}">Reply</a> | <a href="/delete_inbox_message/{{message.id}}">Delete</a></td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h3>Sent</h3>
+        <table>
+            <thead>
+                <tr>
+                    <td>To</td>
+                    <td>Subject</td>
+                    <td>Date</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in messages %}
+                    {% if message.sender.id == user.id %}
+                    <tr>
+                        <td>{{message.recipient.first_name}} {{message.recipient.last_name}}</td>
+                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                        <td>{{message.created_at}}</td>
+                        <td><a href="/delete_sent_message/{{message.id}}">Delete</a></td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
