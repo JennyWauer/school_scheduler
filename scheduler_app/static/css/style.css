@@ -30,6 +30,6 @@ html {
 
 .submit, .logout, .compose {
     background-color: #08D9D6;
-    color: #eaeaea;
+    color: white;
     font-weight: bold;
 }
