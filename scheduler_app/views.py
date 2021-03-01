@@ -10,10 +10,6 @@ import bcrypt
 
 #GET
 def index(request):
-	print("is this render request even working? ")
-	return render(request, "index.html")
-
-def index(request):
 	return render(request, 'index.html')
 
 def add_user(request):
@@ -24,11 +20,13 @@ def logout(request):
 	return redirect('/')
 
 def class_profile(request):
-	user =  Users.objects.get(id=request.session['user_id'])
-	context = {
-		'user':user,
-	}
-	return render(request, 'profile.html', context)
+	if 'user_id' in request.session:
+		user =  Users.objects.get(id=request.session['user_id'])
+		context = {
+			'user':user,
+		}
+		return render(request, 'profile.html', context)
+	return redirect('/')
 
 def inbox(request, id):
 	user = Users.objects.get(id=request.session['user_id'])
