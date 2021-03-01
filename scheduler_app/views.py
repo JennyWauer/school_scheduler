@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Users
 from .models import students
-from .models import subjects
-from .models import assignments
+from .models import Subject
+from .models import Assignment
 from .models import inbox_messages
 from django.contrib import messages
 import bcrypt
