@@ -24,7 +24,7 @@ html {
     background-color: #eaeaea;
 }
 
-.login-form {
+.login-form, .message-form {
     background-color: white;
 }
 

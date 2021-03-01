@@ -19,7 +19,7 @@
         <a href="inbox/{{user.id}}" class="btn ml-1 inbox-btn">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
 	</header>
-    <div>
+    <div class="w-75 ml-auto mr-auto mt-5 message-form">
         <form id="send_message" action="/send" method="POST">
             {% csrf_token %}
                 <label for="Subject">Subject</label>
