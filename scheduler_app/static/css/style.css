@@ -11,7 +11,7 @@ html {
     background-color: #08D9D6;
 }
 
-#sign-in {
+#sign-in, .inbox-btn {
     background-color: #252a34;
     color: #eaeaea;
 }

@@ -13,12 +13,12 @@
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <header>
-        <h2>Compose a message..</h2>
-        <a href="/profile">Home</a>
-        <a href="inbox/{{user.id}}">Inbox</a>
-        <a href="/logout">Logout</a>
-    </header>
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+		<h2 class="pr-5 mb-0">Compose a message</h2>
+        <a href="/profile" class="btn ml-auto">Home</a>
+        <a href="inbox/{{user.id}}" class="btn ml-1 inbox-btn">Inbox</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
+	</header>
     <div>
         <form id="send_message" action="/send" method="POST">
             {% csrf_token %}
