@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Users
 from .models import students
-from .models import subjects
-from .models import assignments
+from .models import Subject
+from .models import Assignment
 from .models import inbox_messages
 from django.contrib import messages
 import bcrypt
@@ -10,11 +10,10 @@ import bcrypt
 
 #GET
 def index(request):
-	print("is this render request even working? ")
-	return render(request, "index.html")
-
-def index(request):
 	return render(request, 'index.html')
+
+def login_reg(request):
+	return render(request, 'login_reg.html')
 
 def add_user(request):
 	return render(request, 'login_reg.html')
@@ -24,11 +23,13 @@ def logout(request):
 	return redirect('/')
 
 def class_profile(request):
-	user =  Users.objects.get(id=request.session['user_id'])
-	context = {
-		'user':user,
-	}
-	return render(request, 'profile.html', context)
+	if 'user_id' in request.session:
+		user =  Users.objects.get(id=request.session['user_id'])
+		context = {
+			'user':user,
+		}
+		return render(request, 'profile.html', context)
+	return redirect('/')
 
 def inbox(request, id):
 	user = Users.objects.get(id=request.session['user_id'])

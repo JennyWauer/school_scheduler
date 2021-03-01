@@ -4,64 +4,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Scheduler</title>
+    <title>Inbox</title>
+    {% load static %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <header>
-        <h2>Hello, {{user.first_name}}</h2>
-        <a href="/profile">Home</a>
-        <a href="/logout">Logout</a>
-    </header>
-    <a href='/new_message'>Compose</a>
-    <div>
-        <h3>Inbox</h3>
-        <table>
-            <thead>
-                <tr>
-                    <td>From</td>
-                    <td>Subject</td>
-                    <td>Date</td>
-                    <td>Action</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for message in messages %}
-                    {% if message.recipient.id == user.id %}
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+		<h2 class="pr-5 mb-0">Inbox</h2>
+        <a href="/profile" class="btn ml-auto">Home</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
+	</header>
+    <a class="btn compose mt-3 ml-5" href='/new_message'>Compose</a>
+    <div class="d-flex ml-auto mr-auto">
+        <div class="w-50">
+            <h3 class="text-center">Inbox</h3>
+            <table class="table w-75 ml-auto mr-auto mt-3 table-bordered table-hover">
+                <thead>
                     <tr>
-                        <td>{{message.sender.first_name}} {{message.sender.last_name}}</td>
-                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
-                        <td>{{message.created_at}}</td>
-                        <td><a href="/message/{{message.id}}">Reply</a> | <a href="/delete_inbox_message/{{message.id}}">Delete</a></td>
+                        <td>From</td>
+                        <td>Subject</td>
+                        <td>Date</td>
+                        <td>Action</td>
                     </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <h3>Sent</h3>
-        <table>
-            <thead>
-                <tr>
-                    <td>To</td>
-                    <td>Subject</td>
-                    <td>Date</td>
-                    <td>Action</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for message in messages %}
-                    {% if message.sender.id == user.id %}
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                        {% if message.recipient.id == user.id %}
+                        <tr>
+                            <td>{{message.sender.first_name}} {{message.sender.last_name}}</td>
+                            <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                            <td>{{message.created_at}}</td>
+                            <td><a href="/message/{{message.id}}">Reply</a> | <a href="/delete_inbox_message/{{message.id}}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="w-50">
+            <h3 class="text-center">Sent</h3>
+            <table class="table w-75 ml-auto mr-auto mt-3 table-bordered table-hover">
+                <thead>
                     <tr>
-                        <td>{{message.recipient.first_name}} {{message.recipient.last_name}}</td>
-                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
-                        <td>{{message.created_at}}</td>
-                        <td><a href="/delete_sent_message/{{message.id}}">Delete</a></td>
+                        <td>To</td>
+                        <td>Subject</td>
+                        <td>Date</td>
+                        <td>Action</td>
                     </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                        {% if message.sender.id == user.id %}
+                        <tr>
+                            <td>{{message.recipient.first_name}} {{message.recipient.last_name}}</td>
+                            <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                            <td>{{message.created_at}}</td>
+                            <td><a href="/delete_sent_message/{{message.id}}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    
 </body>
 </html>
