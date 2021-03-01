@@ -12,6 +12,9 @@ import bcrypt
 def index(request):
 	return render(request, 'index.html')
 
+def login_reg(request):
+	return render(request, 'login_reg.html')
+
 def add_user(request):
 	return render(request, 'login_reg.html')
 

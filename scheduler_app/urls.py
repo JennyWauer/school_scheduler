@@ -14,4 +14,5 @@ urlpatterns = [
 	path('new_message', views.new_message),
 	path('delete_inbox_message/<int:id>', views.delete_inbox_message),
 	path('delete_sent_message/<int:id>', views.delete_sent_message),
+	path('login_reg', views.login_reg),
 ]
