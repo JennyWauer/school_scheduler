@@ -19,55 +19,58 @@
         <a href="/logout" class="btn ml-1 logout">Logout</a>
 	</header>
     <a href='/new_message'>Compose</a>
-    <div>
-        <h3>Inbox</h3>
-        <table>
-            <thead>
-                <tr>
-                    <td>From</td>
-                    <td>Subject</td>
-                    <td>Date</td>
-                    <td>Action</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for message in messages %}
-                    {% if message.recipient.id == user.id %}
+    <div class="d-flex w-75 ml-auto mr-auto">
+        <div class="w-50">
+            <h3>Inbox</h3>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{message.sender.first_name}} {{message.sender.last_name}}</td>
-                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
-                        <td>{{message.created_at}}</td>
-                        <td><a href="/message/{{message.id}}">Reply</a> | <a href="/delete_inbox_message/{{message.id}}">Delete</a></td>
+                        <td>From</td>
+                        <td>Subject</td>
+                        <td>Date</td>
+                        <td>Action</td>
                     </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-    <div>
-        <h3>Sent</h3>
-        <table>
-            <thead>
-                <tr>
-                    <td>To</td>
-                    <td>Subject</td>
-                    <td>Date</td>
-                    <td>Action</td>
-                </tr>
-            </thead>
-            <tbody>
-                {% for message in messages %}
-                    {% if message.sender.id == user.id %}
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                        {% if message.recipient.id == user.id %}
+                        <tr>
+                            <td>{{message.sender.first_name}} {{message.sender.last_name}}</td>
+                            <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                            <td>{{message.created_at}}</td>
+                            <td><a href="/message/{{message.id}}">Reply</a> | <a href="/delete_inbox_message/{{message.id}}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="w-50">
+            <h3>Sent</h3>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{message.recipient.first_name}} {{message.recipient.last_name}}</td>
-                        <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
-                        <td>{{message.created_at}}</td>
-                        <td><a href="/delete_sent_message/{{message.id}}">Delete</a></td>
+                        <td>To</td>
+                        <td>Subject</td>
+                        <td>Date</td>
+                        <td>Action</td>
                     </tr>
-                    {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                        {% if message.sender.id == user.id %}
+                        <tr>
+                            <td>{{message.recipient.first_name}} {{message.recipient.last_name}}</td>
+                            <td><a href="/message/{{message.id}}">{{message.subject}}</a></td>
+                            <td>{{message.created_at}}</td>
+                            <td><a href="/delete_sent_message/{{message.id}}">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    
 </body>
 </html>
