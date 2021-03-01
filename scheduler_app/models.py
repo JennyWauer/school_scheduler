@@ -38,13 +38,14 @@ class Users(models.Model):
 class studentsManager(models.Manager):
     def validate(self, form):
         errors = {}
-        if form['fieldName'] == 'first_name':
+        if form['first_name'] == 'first_name':
             if len(form['value']) < 2:
                 errors['first_name'] = "First name must be at least 2 characters"
-        if form['fieldName'] == 'last_name':
+        if form['last_name'] == 'last_name':
             if len(form['value']) < 2:
-                errors['fieldName'] = "Last name must be at least 2 characters"
+                errors['last_name'] = "Last name must be at least 2 characters"
         return errors
+
 
 class students(models.Model):
 	first_name = models.CharField(max_length=50)
@@ -57,8 +58,8 @@ class students(models.Model):
 		return f"<ID: ({self.id}) \nName:{self.first_name} {self.last_name}>"
 
 
-class subjectManager(models.Manager):
-    def validate(self, form):
+class SubjectManager(models.Manager):
+    def subject_validator(self, form):
         errors = {}
         if len(form['name']) < 3:
             errors['name'] = "Subject name must be at least 3 characters"
@@ -70,7 +71,8 @@ class subjectManager(models.Manager):
             errors["lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
-class subjects(models.Model):
+
+class Subject(models.Model):
 	name = models.CharField(max_length=45)
 	url = models.TextField()
 	lecture_date = models.DateTimeField()
@@ -79,30 +81,31 @@ class subjects(models.Model):
 	enrolled_students = models.ManyToManyField(students, related_name="enrolled_subjects")
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	objects = subjectManager()
+	objects = SubjectManager()
 	def repr(self):
 		return f"<ID: ({self.id}) \nName:{self.name}>"
 
 
-class assignmentsManager(models.Manager):
-	def validate(self, form):
+class AssignmentManager(models.Manager):
+	def assignment_validator(self, form):
 		errors = {}
 		if len(form['title']) < 3:
 			errors['title'] = "Title must be at least 3 characters"
-		if len(form['description']) < 10:
-			errors['description'] = "Description must be at least 10 characters"
+		if len(form['description']) < 4:
+			errors['description'] = "Description must be at least 4 characters"
 		if datetime.strptime(form['due_date'], '%Y-%m-%d') <= datetime.now():
-			errors["trip_start"] = "Due date cannot be in the past"
+			errors["due_date"] = "Due date cannot be in the past"
 		return errors
 
-class assignments(models.Model):
+class Assignment(models.Model):
 	title = models.CharField(max_length=45)
-	subject = models.ForeignKey(subjects, related_name="subject_assignments",on_delete = models.CASCADE)
+	subject = models.ForeignKey(Subject, related_name="subject_assignments",on_delete = models.CASCADE)
 	description = models.TextField()
 	due_date = models.DateTimeField()
+	teacher = models.ForeignKey(Users, related_name="posted_assignment",on_delete = models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	objects = assignmentsManager()
+	objects = AssignmentManager()
 	def repr(self):
 		return f"<ID: ({self.id}) \nTitle:{self.title}>"
 
