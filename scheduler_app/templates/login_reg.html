@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
-<body>
+<body class="login-background">
 	<header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
 		<h2 class="pr-5 mb-0">School Scheduler</h2>
 		<a href="/" class="btn ml-auto">Main</a>
@@ -30,71 +30,77 @@
 		</ul>
 		{% endif %}
 	</div>
-	<main class="mt-5 main">
+	<main class="mt-5">
 		<div class="d-flex w-75 ml-auto mr-auto">
 			<div class="w-50 d-flex flex-column">
-				<h1 class="text-center"> Registration Form</h1>
-				<p class="text-center">Manage all school appointments in one place.</p>
-				<div class="w-50 ml-auto mr-auto">
-					<form action="create_user" method="POST">
-						{% csrf_token %}
-						<div class="mb-2">
-							<span>First Name</span>
-							<input type="text" class="form-control" id="floatingPassword" name="first_name"
-								placeholder="First Name">
-						</div>
-						<div class="mb-2">
-							<span>Last Name</span>
-							<input type="text" class="form-control" id="floatingPassword" name="last_name"
-								placeholder="Last Name">
-						</div>
-						<div class="mb-2">
-							<span>Email</span>
-							<input type="text" class="form-control" id="floatingPassword" name="email"
-								placeholder="name@example.com">
-						</div>
-						<div class="mb-2">
-							<span>Password</span>
-							<input type="text" class="form-control" id="floatingPassword" name="password"
-								placeholder="Password">
-						</div>
+				<div class="login-form rounded p-3 w-75 ml-auto mr-auto">
+					<h1 class="text-center"> Registration Form</h1>
+					<p class="text-center">Manage all school appointments in one place.</p>
+					<div class="w-50 ml-5">
+						<form action="create_user" method="POST">
+							{% csrf_token %}
+							<div class="mb-2">
+								<span>First Name</span>
+								<input type="text" class="form-control" id="floatingPassword" name="first_name"
+									placeholder="First Name">
+							</div>
+							<div class="mb-2">
+								<span>Last Name</span>
+								<input type="text" class="form-control" id="floatingPassword" name="last_name"
+									placeholder="Last Name">
+							</div>
+							<div class="mb-2">
+								<span>Email</span>
+								<input type="text" class="form-control" id="floatingPassword" name="email"
+									placeholder="name@example.com">
+							</div>
+							<div class="mb-2">
+								<span>Password</span>
+								<input type="text" class="form-control" id="floatingPassword" name="password"
+									placeholder="Password">
+							</div>
 
-						<div class="mb-2">
-							<spa">Confirm Password:</span>
-								<input type="text" class="form-control" id="floatingPassword" name="confirm_password"
-									placeholder="Confirm Password">
-						</div>
+							<div class="mb-2">
+								<spa">Confirm Password:</span>
+									<input type="text" class="form-control" id="floatingPassword"
+										name="confirm_password" placeholder="Confirm Password">
+							</div>
 
-						<div class="mb-2">
-							<label name="role">Role</label>
-							<select name="role">
-								<option value="0" selected>Choose...</option>
-								<option value="1">Teacher</option>
-								<option value="2">Parent</option>
-							</select>
-						</div>
-						<input type="submit" name="submit" id="submit" value="Register">
-					</form>
+							<div class="mb-2">
+								<label name="role">Role</label>
+								<select name="role">
+									<option value="0" selected>Choose...</option>
+									<option value="1">Teacher</option>
+									<option value="2">Parent</option>
+								</select>
+							</div>
+							<input class="submit shadow-sm btn" type="submit" name="submit" id="submit" value="Register">
+						</form>
+					</div>
 				</div>
+
 
 			</div>
 			<div class="w-50">
-				<h1 class="text-center">Login Form</h1>
-				<p class="text-center">Already registered? Sign In.</p>
-				<div class="w-50 ml-auto mr-auto">
-					<form action="/login" method="POST">
-						{% csrf_token %}
-						<div class="mb-2">
-							<span>Email</span>
-							<input class="form-control" name="email" placeholder="name@example.com">
-						</div>
-						<div class="mb-2">
-							<span>Password</span>
-							<input class="form-control" name="password" placeholder="name@example.com">
-						</div>
-						<input type="submit" name="submit" id="submit" value="Sign In">
-					</form>
+				<div class="login-form rounded p-3 h-100 w-75 ml-auto mr-auto">
+					<h1 class="text-center">Login Form</h1>
+					<p class="text-center">Already registered? Sign In.</p>
+					<div class="w-50 ml-5">
+						<form action="/login" method="POST">
+							{% csrf_token %}
+							<div class="mb-2">
+								<span>Email</span>
+								<input class="form-control" name="email" placeholder="name@example.com">
+							</div>
+							<div class="mb-2">
+								<span>Password</span>
+								<input class="form-control" name="password" placeholder="name@example.com">
+							</div>
+							<input class="submit shadow-sm btn" type="submit" name="submit" id="submit" value="Sign In">
+						</form>
+					</div>
 				</div>
+
 			</div>
 		</div>
 	</main>

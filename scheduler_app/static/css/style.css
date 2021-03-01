@@ -19,3 +19,17 @@ html {
 #header {
     color: #252a34;
 }
+
+.login-background {
+    background-color: #eaeaea;
+}
+
+.login-form {
+    background-color: white;
+}
+
+.submit {
+    background-color: #08D9D6;
+    color: #eaeaea;
+    font-weight: bold;
+}
