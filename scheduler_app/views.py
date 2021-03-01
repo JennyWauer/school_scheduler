@@ -1,5 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import Users, UsersManager,studentsManager, students,subjectManager,subjects,assignmentsManager,assignments,messagesManager,messages
+from .models import Users
+from .models import students
+from .models import subjects
+from .models import assignments
+from .models import inbox_messages
 from django.contrib import messages
 import bcrypt
 # Create your views here.
@@ -20,7 +24,38 @@ def logout(request):
 	return redirect('/')
 
 def class_profile(request):
-	return render(request, 'profile.html')
+	user =  Users.objects.get(id=request.session['user_id'])
+	context = {
+		'user':user,
+	}
+	return render(request, 'profile.html', context)
+
+def inbox(request, id):
+	user = Users.objects.get(id=request.session['user_id'])
+	context = {
+		'user': user,
+		'messages': inbox_messages.objects.all(),
+		'all_users': Users.objects.all(),
+	}
+	return render(request, 'inbox.html', context)
+
+def open_message(request, id):
+	user = Users.objects.get(id=request.session['user_id'])
+	message = inbox_messages.objects.get(id=id)
+	context = {
+		'user': user,
+		'message': message,
+	}
+	return render(request, 'opened_message.html', context)
+
+def new_message(request):
+	user = Users.objects.get(id=request.session['user_id'])
+	context = {
+		'user': user,
+		'messages': inbox_messages.objects.all(),
+		'all_users': Users.objects.all(),
+	}
+	return render(request, 'new_message.html', context)
 
 #<---------POST METHODS------>
 
@@ -80,4 +115,28 @@ def user_login(request):
 		else:
 			messages.error(request, "Your email does not exist.")
 			return redirect ('/')
+	return redirect('/profile')
+
+#INBOX METHOD
+def send_message(request):
+	new_message = inbox_messages.objects.create(
+        subject = request.POST['subject'],
+		message = request.POST['message'],
+		sender = Users.objects.get(id=request.session['user_id']),
+        recipient = Users.objects.get(id=request.POST['recipient']),
+    )
+	return redirect('/profile')
+
+def delete_inbox_message(request, id):
+	destroyed = inbox_messages.objects.get(id=id)
+	user = Users.objects.get(id=request.session['user_id'])
+	if destroyed.recipient == user:
+		destroyed.delete()
+	return redirect('/profile')
+
+def delete_sent_message(request, id):
+	destroyed = inbox_messages.objects.get(id=id)
+	user = Users.objects.get(id=request.session['user_id'])
+	if destroyed.sender == user:
+		destroyed.delete()
 	return redirect('/profile')
