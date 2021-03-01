@@ -38,56 +38,56 @@
 				<div class="w-50 ml-auto mr-auto">
 					<form action="create_user" method="POST">
 						{% csrf_token %}
-						<div>
+						<div class="mb-2">
 							<span>First Name</span>
 							<input type="text" class="form-control" id="floatingPassword" name="first_name"
 								placeholder="First Name">
 						</div>
-						<div>
+						<div class="mb-2">
 							<span>Last Name</span>
 							<input type="text" class="form-control" id="floatingPassword" name="last_name"
 								placeholder="Last Name">
 						</div>
-						<di">
+						<div class="mb-2">
 							<span>Email</span>
 							<input type="text" class="form-control" id="floatingPassword" name="email"
 								placeholder="name@example.com">
+						</div>
+						<div class="mb-2">
+							<span>Password</span>
+							<input type="text" class="form-control" id="floatingPassword" name="password"
+								placeholder="Password">
+						</div>
 
-							<div>
-								<span>Password</span>
-								<input type="text" class="form-control" id="floatingPassword" name="password"
-									placeholder="Password">
-							</div>
+						<div class="mb-2">
+							<spa">Confirm Password:</span>
+								<input type="text" class="form-control" id="floatingPassword" name="confirm_password"
+									placeholder="Confirm Password">
+						</div>
 
-							<div>
-								<spa">Confirm Password:</span>
-									<input type="text" class="form-control" id="floatingPassword"
-										name="confirm_password" placeholder="Confirm Password">
-							</div>
-
-							<div>
-								<label name="role">Role</label>
-								<select name="role">
-									<option value="0" selected>Choose...</option>
-									<option value="1">Teacher</option>
-									<option value="2">Parent</option>
-								</select>
-							</div>
-							<input type="submit" name="submit" id="submit" value="Register">
+						<div class="mb-2">
+							<label name="role">Role</label>
+							<select name="role">
+								<option value="0" selected>Choose...</option>
+								<option value="1">Teacher</option>
+								<option value="2">Parent</option>
+							</select>
+						</div>
+						<input type="submit" name="submit" id="submit" value="Register">
 					</form>
 				</div>
 
 			</div>
 			<div class="w-50">
-				<h2 class="text-center">Login Form</h2>
+				<h1 class="text-center">Login Form</h1>
 				<div class="w-50 ml-auto mr-auto">
 					<form action="/login" method="POST">
 						{% csrf_token %}
-						<div>
+						<div class="mb-2">
 							<span>Email</span>
 							<input class="form-control" name="email" placeholder="name@example.com">
 						</div>
-						<div>
+						<div class="mb-2">
 							<span>Password</span>
 							<input class="form-control" name="password" placeholder="name@example.com">
 						</div>
