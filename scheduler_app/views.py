@@ -22,14 +22,17 @@ def logout(request):
 	request.session.flush()
 	return redirect('/')
 
-def class_profile(request):
-	if 'user_id' in request.session:
-		user =  Users.objects.get(id=request.session['user_id'])
-		context = {
-			'user':user,
-		}
-		return render(request, 'profile.html', context)
-	return redirect('/')
+def profile(request):
+    if 'user_id' in request.session:
+        user = Users.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+                'subjects':Subject.objects.all(),
+
+            }
+            return render(request, 'profile.html', context)
+    return redirect('/')
 
 def inbox(request, id):
 	user = Users.objects.get(id=request.session['user_id'])
@@ -112,10 +115,10 @@ def user_login(request):
 				return redirect ('/profile')
 			else :
 				messages.error(request, "Your password is incorrect.")
-				return redirect ('/')
+				return redirect ('/register')
 		else:
 			messages.error(request, "Your email does not exist.")
-			return redirect ('/')
+			return redirect ('/register')
 	return redirect('/profile')
 
 #INBOX METHOD
