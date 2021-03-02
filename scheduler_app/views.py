@@ -251,7 +251,7 @@ def create_assignment(request, subject_id):
 
 
 def delete_assignment(request, assignment_id):
-	subject = Subject.objects.get(id=subject_id)
+    subject = Subject.objects.get(id=subject_id)
     assignment = Assignment.objects.get(id=assignment_id)
     assignment.delete()
     return redirect(f'/subjects/{subject.id}')
