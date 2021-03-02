@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Welcome Parent</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src='main.js'></script>
+</head>
+<body>
+    <div>
+        <h2>Parent Profile</h2>
+        <a href="/logout">Home |</a>
+        <a href="/logout"> Inbox |</a>
+        <a href="/logout"> Log Out</a>
+        <h3>Welcome {{user.first_name}}</h3>
+    </div>
+
+    <div>
+        <h2>My Attending Children</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in mystudents %}  <!-- This grabs the filtered my students using my user id-->
+                    {% for subject in student.enrolled_subjects.all %} <!-- This grabs the list of subjects this student has-->
+                        <tr>
+                            <td>{{student.first_name}} {{student.last_name}} </td>
+                            <td>{{subject.description}} </td>
+                            <td>{{subject.teacher.first_name}} {{subject.teacher.last_name}}</td> <!-- subject recprd.teacher(fk).user field(user table)-->
+                            <td><a href="/assignments">Assignments</a></td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

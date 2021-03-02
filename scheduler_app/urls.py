@@ -8,4 +8,5 @@ urlpatterns = [
 	path('profile', views.class_profile),
 	path('login', views.user_login),
 	path('logout',views.logout),
+	path('parent/<int:user_id>',views.parent),
 ]
