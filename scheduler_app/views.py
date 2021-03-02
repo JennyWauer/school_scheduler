@@ -35,6 +35,34 @@ def profile(request):
             return render(request, 'profile.html', context)
     return redirect('/')
 
+def subject_page(request, subject_id):
+    if 'user_id' in request.session:
+        user = Users.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+                'subject': Subject.objects.get(id=subject_id),
+                'assignments':Assignment.objects.all(),
+				'subject_id': subject_id
+
+            }
+            return render(request, 'class_page.html', context)
+    return redirect('/')
+
+
+def edit_subject(request, subject_id):
+    if 'user_id' in request.session:
+        user = Users.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+				'subjects': Subject.objects.all(),
+                'edit_subject': Subject.objects.get(id=subject_id),
+            }
+            return render(request, 'profile.html', context)
+    return redirect('/')
+
+
 def inbox(request, id):
 	user = Users.objects.get(id=request.session['user_id'])
 	context = {
@@ -145,3 +173,87 @@ def delete_sent_message(request, id):
 	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')
+
+#SUBJECT METHOD
+def create_subject(request):
+    errors = Subject.objects.subject_validator(request.POST)
+
+    if len(errors):
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/profile')
+    else:
+        user = Users.objects.get(id=request.session['user_id'])
+        request.session['user_id'] = user.id
+        request.session['user_name']=f"{user.first_name}"
+        subject = Subject.objects.create(
+            name=request.POST['name'],
+            url=request.POST['url'],
+            lecture_date=request.POST['lecture_date'],
+            description=request.POST['description'],
+            teacher=user
+        )
+        
+        return redirect('/profile')
+    return redirect("/")
+
+
+def edit_subject(request, subject_id):
+    subject = Subject.objects.get(id=subject_id)
+    subject.delete()
+    return redirect('/profile')
+
+
+def update_subject(request, subject_id):
+    if request.method=='POST':
+        errors = Subject.objects.subject_validator(request.POST)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(f'/subjects/{subject_id}/edit')
+        my_subject=Subject.objects.get(id=subject_id)
+        my_subject.name=request.POST['new_name']
+        my_subject.url=request.POST['new_url']
+        my_subject.lecture_date=request.POST['new_lecture_date']
+        my_subject.description=request.POST['new_description']
+        my_subject.save()
+
+    return redirect(f'/subject/{subject_id}')
+
+
+def delete_subject(request, subject_id):
+    subject = Subject.objects.get(id=subject_id)
+    subject.delete()
+    return redirect('/profile')
+
+
+def create_assignment(request, subject_id):
+    errors = Assignment.objects.assignment_validator(request.POST)
+
+    if len(errors):
+        for key, value in errors.items():
+            messages.error(request, value)
+        return redirect('/subject_page')
+    print('have we gotten this far?')
+    print(subject_id)
+    user = Users.objects.get(id=request.session['user_id'])
+    subject = Subject.objects.get(id=subject_id)
+    assignment = Assignment.objects.create(
+        title=request.POST['title'],
+        due_date=request.POST['due_date'],
+        description=request.POST['description'],
+        teacher=user,
+        subject=subject
+
+        )
+        
+    return redirect(f'/subjects/{subject.id}')
+
+
+def delete_assignment(request, assignment_id):
+	subject = Subject.objects.get(id=subject_id)
+    assignment = Assignment.objects.get(id=assignment_id)
+    assignment.delete()
+    return redirect(f'/subjects/{subject.id}')
+
+
