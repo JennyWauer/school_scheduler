@@ -4,13 +4,13 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+	<title>School Scheduler</title>
 </head>
 <body>
-	<h1>Profile Page for {{user.first_name}}</h1>
-
-	<div>
-		<button class="btn btn-outline-primary" type="button"><a href="/all_classes">All Classes</a</button>
-	</div>
+	<header>
+		<h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
+		<a href="inbox/{{user.id}}">Inbox</a>
+		<a href="/logout">Logout</a>
+	</header>
 </body>
 </html>

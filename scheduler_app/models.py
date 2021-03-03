@@ -69,7 +69,7 @@ class SubjectManager(models.Manager):
         if len(form['url']) < 10:
             errors['url'] = "Description must be at least 10 characters"
         if datetime.strptime(form['lecture_date'], '%Y-%m-%d') <= datetime.now():
-            errors["trip_start"] = "Lecture date cannot be in the past"
+            errors["lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
 class Subject(models.Model):
@@ -126,3 +126,4 @@ class Message(models.Model):
     recipient = models.ForeignKey(User, related_name="received_messages",on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = inbox_messagesManager()

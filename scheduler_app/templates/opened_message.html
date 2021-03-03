@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Scheduler</title>
+</head>
+<body>
+    <header>
+        <h3>{{message.subject}}</h3>
+        <a href="/profile">Home</a>
+        <a href="/inbox/{{user.id}}">Inbox</a>
+		<a href="/logout">Logout</a>
+    </header>
+    <div>
+        <p>From: {{message.sender.first_name}} {{message.sender.last_name}}</p>
+        <p>Message: {{message.message}}</p>
+    </div>
+    <div>
+        <form id="reply_message" action="/send" method="POST">
+            {% csrf_token %}
+                <label for="Subject">Subject</label>
+                <input type="text"  id="subject" name="subject">
+                <label for="message">Message</label>
+                <textarea id='message_body' name='message'></textarea>
+                <label for="recipient">Choose a recipient:</label>
+                <input type="hidden" id="recipient" name="recipient" value="{{message.sender.id}}">
+                <button>Reply</button>
+        </form>
+    </div>
+</body>
+</html>
