@@ -95,7 +95,13 @@ def create_user(request):
 		request.session['first_name'] = new_user.first_name
 		request.session['last_name'] = new_user.last_name
 		request.session['role'] = new_user.role
-	return redirect('/profile')
+	
+		print('Checking User Role 2')
+		if new_user.role == "2":
+			#return redirect('/parent')
+			return redirect(f"/parent/{new_user.id}")
+		else:
+			return redirect('/profile')
 
 #LOGIN METHOD
 def user_login(request):
@@ -112,14 +118,26 @@ def user_login(request):
 			if bcrypt.checkpw(request.POST['password'].encode(),logged_user.password.encode()):
 				request.session['user_id'] = logged_user.id 
 				request.session['first_name'] = logged_user.first_name
-				return redirect ('/profile')
+				
+				print('Checking User Role 2')
+				if logged_user.role == "2":
+					#return redirect('/parent')
+					return redirect(f"/parent/{logged_user.id}")
+				else:
+					return redirect('/profile')
 			else :
 				messages.error(request, "Your password is incorrect.")
 				return redirect ('/register')
 		else:
 			messages.error(request, "Your email does not exist.")
 			return redirect ('/register')
-	return redirect('/profile')
+		
+		print('Checking User Role 2')
+		if logged_user.role == "2":
+			#return redirect('/parent')
+			return redirect(f"/parent/{logged_user.id}")
+		else:
+			return redirect('/profile')
 
 #INBOX METHOD
 def send_message(request):
@@ -144,3 +162,18 @@ def delete_sent_message(request, id):
 	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')
+
+
+def parent(request, user_id):
+    if 'user_id' in request.session:  #Is the user logged in
+
+        this_user = Users.objects.filter(id=request.session['user_id']),
+        context = {
+                'user': Users.objects.get(id=request.session['user_id']), #create instance of user to add to record
+                'allstudents': students.objects.all(), #All students
+				'mystudents': students.objects.filter(user=user_id), #Grab Only User students
+				#'mystudents': this_user.students.all(),	# get all the kids this user has
+				'subjects': subjects.objects.all(), #All subjects
+            }
+        return render(request,'parent.html', context) #if valid user than we move on to success
+    return redirect("/login") #no matter what success handles the view and the session
