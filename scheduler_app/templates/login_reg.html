@@ -1,96 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Registration</title>
-    {% load static %}
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">  
-	<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/navbar-fixed/">
-	<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet"> 
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login & Registration</title>
+	{% load static %}
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <div class="container">
-        {% if messages %}
-		<ul class="messages">    
-    		{% for message in messages %}    
-       		<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-   			{% endfor %}
+
+<body class="login-background">
+	<header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+		<h2 class="pr-5 mb-0">School Scheduler</h2>
+		<a href="/" class="btn ml-auto">Main</a>
+		<a href="/logout" class="btn ml-1" id="sign-in">Logout</a>
+	</header>
+	<div>
+		{% if messages %}
+		<ul>
+			     {% for message in messages %}
+			        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+			    {% endfor %}
 		</ul>
 		{% endif %}
-		<main class="containter">
-			<div class="starter-template text-center py-5 px-3">
-				<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-					<a class="btn btn-outline-primary" href="/" role="button">Main</a>
-					<a class="btn btn-outline-primary" href="/logout" role="button">Logout</a>
-					<!-- <a href="/profile" class="btn btn-primary">Register</a> -->
-				</div>
-				<h1> Registration Form</h1>
-				<p class="lead">Manage all school appointments in one place.</p>
-					<div class="card">
-						<div class="card-body">
-							<form action="create_user" method="POST">
-								{% csrf_token %}
-									<div class="input-group mb-3">
-										<span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
-										<input type="text" class="form-control" id="floatingPassword" name="first_name" placeholder="First Name">
-									</div> 
-									<div class="input-group mb-3">
-										<span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
-										<input type="text" class="form-control" id="floatingPassword" name="last_name" placeholder="Last Name">
-									</div>
-									<div class="input-group mb-3">
-										<span class="input-group-text" id="inputGroup-sizing-default">Email</span>
-										<input type="text" class="form-control" id="floatingPassword" name="email" placeholder="name@example.com">
-									</div>
+	</div>
+	<main class="mt-5">
+		<div class="d-flex w-75 ml-auto mr-auto">
+			<div class="w-50 d-flex flex-column">
+				<div class="login-form rounded p-3 w-75 ml-auto mr-auto">
+					<h1 class="text-center"> Registration Form</h1>
+					<p class="text-center">Manage all school appointments in one place.</p>
+					<div class="w-50 ml-5">
+						<form action="create_user" method="POST">
+							{% csrf_token %}
+							<div class="mb-2">
+								<span>First Name</span>
+								<input type="text" class="form-control" id="floatingPassword" name="first_name"
+									placeholder="First Name">
+							</div>
+							<div class="mb-2">
+								<span>Last Name</span>
+								<input type="text" class="form-control" id="floatingPassword" name="last_name"
+									placeholder="Last Name">
+							</div>
+							<div class="mb-2">
+								<span>Email</span>
+								<input type="text" class="form-control" id="floatingPassword" name="email"
+									placeholder="name@example.com">
+							</div>
+							<div class="mb-2">
+								<span>Password</span>
+								<input type="password" class="form-control" id="floatingPassword" name="password"
+									placeholder="Password">
+							</div>
 
-									<div class="input-group mb-3">
-										<span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-										<input type="text" class="form-control" id="floatingPassword" name="password" placeholder="Password">
-									</div>
+							<div class="mb-2">
+								<spa">Confirm Password:</span>
+									<input type="password" class="form-control" id="floatingPassword"
+										name="confirm_password" placeholder="Confirm Password">
+							</div>
 
-									<div class="input-group mb-3">
-										<span class="input-group-text" id="inputGroup-sizing-default">Confirm Password:</span>
-										<input type="text" class="form-control" id="floatingPassword" name="confirm_password"placeholder="Confirm Password">
-									</div> 
-
-									<div class="input-group mb-3">
-										<label class="input-group-text" for="inputGroupSelect01" id="inputGroup-sizing-default" name="role">Role</label>
-										<select class="form-select" id="inputGroupSelect01" name="role" >
-											<option value="0" selected>Choose...</option>
-											<option value="1">Teacher</option>
-											<option value="2">Parent</option>
-										</select> 
-									</div>
-									<button class="btn btn-primary" type="submit">Submit</button>
-							</form>
-						</div>
+							<div class="mb-2">
+								<label name="role">Role</label>
+								<select name="role">
+									<option value="0" selected>Choose...</option>
+									<option value="1">Teacher</option>
+									<option value="2">Parent</option>
+								</select>
+							</div>
+							<input class="submit shadow-sm btn" type="submit" name="submit" id="submit"
+								value="Register">
+						</form>
 					</div>
 				</div>
-				<div>
-					<h2>Login Form</h2>
-					<form action="/login" method="POST">
-						{% csrf_token %}
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="inputGroup-sizing-default">Email</span>
-							<input type="text" class="form-control" id="floatingPassword" name="email" placeholder="name@example.com">
-						</div>
-						<div class="input-group mb-3">
-							<span class="input-group-text" id="inputGroup-sizing-default">Password</span>
-							<input type="password" class="form-control" id="floatingPassword" name="password" placeholder="name@example.com">
-						</div>
-						<button class="btn btn-primary" type="submit">Submit</button>
-					</form>
-				</div>
 			</div>
-		</main>
-		
+			<div class="w-50">
+				<div class="login-form rounded p-3 h-100 w-75 ml-auto mr-auto">
+					<h1 class="text-center">Login Form</h1>
+					<p class="text-center">Already registered? Sign In.</p>
+					<div class="w-50 ml-5">
+						<form action="/login" method="POST">
+							{% csrf_token %}
+							<div class="mb-2">
+								<span>Email</span>
+								<input class="form-control" name="email" placeholder="name@example.com">
+							</div>
+							<div class="mb-2">
+								<span>Password</span>
+								<input type="password" class="form-control" name="password" placeholder="password">
+							</div>
+							<input class="submit shadow-sm btn" type="submit" name="submit" id="submit" value="Sign In">
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</main>
+
 	</div>
 
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script> 
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
+		integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+		integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG"
+		crossorigin="anonymous"></script>
 
 </body>
+
 </html>
