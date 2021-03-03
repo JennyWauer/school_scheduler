@@ -32,7 +32,7 @@ def profile(request):
 
 def subject_page(request, subject_id):
     if 'user_id' in request.session:
-        user = Users.objects.filter(id=request.session['user_id'])
+        user = User.objects.filter(id=request.session['user_id'])
         if user:
             context = {
                 'user': user[0],
@@ -47,7 +47,7 @@ def subject_page(request, subject_id):
 
 def edit_subject(request, subject_id):
     if 'user_id' in request.session:
-        user = Users.objects.filter(id=request.session['user_id'])
+        user = User.objects.filter(id=request.session['user_id'])
         if user:
             context = {
                 'user': user[0],
@@ -207,8 +207,8 @@ def add_student(request):
 
 
 def delete_sent_message(request, id):
-	destroyed = inbox_messages.objects.get(id=id)
-	user = Users.objects.get(id=request.session['user_id'])
+	destroyed = Message.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
 	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')
@@ -222,7 +222,7 @@ def create_subject(request):
             messages.error(request, value)
         return redirect('/profile')
     else:
-        user = Users.objects.get(id=request.session['user_id'])
+        user = User.objects.get(id=request.session['user_id'])
         request.session['user_id'] = user.id
         request.session['user_name']=f"{user.first_name}"
         subject = Subject.objects.create(
@@ -275,7 +275,7 @@ def create_assignment(request, subject_id):
         return redirect('/subject_page')
     print('have we gotten this far?')
     print(subject_id)
-    user = Users.objects.get(id=request.session['user_id'])
+    user = User.objects.get(id=request.session['user_id'])
     subject = Subject.objects.get(id=subject_id)
     assignment = Assignment.objects.create(
         title=request.POST['title'],
@@ -305,37 +305,37 @@ def delete_student (request, student_id):
 def parent(request, user_id):
     if 'user_id' in request.session:  #Is the user logged in
 
-        this_user = Users.objects.filter(id=request.session['user_id']),
+        this_user = User.objects.filter(id=request.session['user_id']),
         context = {
-                'user': Users.objects.get(id=request.session['user_id']), #create instance of user to add to record
-                'allstudents': students.objects.all(), #All students
-				'mystudents': students.objects.filter(user=user_id), #Grab Only User students
+                'user': User.objects.get(id=request.session['user_id']), #create instance of user to add to record
+                'allstudents': Student.objects.all(), #All students
+				'mystudents': Student.objects.filter(user=user_id), #Grab Only User students
 				#'mystudents': this_user.students.all(),	# get all the kids this user has
-				'subjects': subjects.objects.all(), #All subjects
+				'subjects': Subject.objects.all(), #All subjects
             }
         return render(request,'parent.html', context) #if valid user than we move on to success
     return redirect("/login") #no matter what success handles the view and the session
 
 #INBOX METHOD
 def send_message(request):
-	new_message = inbox_messages.objects.create(
+	new_message = Message.objects.create(
         subject = request.POST['subject'],
 		message = request.POST['message'],
-		sender = Users.objects.get(id=request.session['user_id']),
-        recipient = Users.objects.get(id=request.POST['recipient']),
+		sender = User.objects.get(id=request.session['user_id']),
+        recipient = User.objects.get(id=request.POST['recipient']),
     )
 	return redirect('/profile')
 
 def delete_inbox_message(request, id):
-	destroyed = inbox_messages.objects.get(id=id)
-	user = Users.objects.get(id=request.session['user_id'])
+	destroyed = Message.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
 	if destroyed.recipient == user:
 		destroyed.delete()
 	return redirect('/profile')
 
 def delete_sent_message(request, id):
-	destroyed = inbox_messages.objects.get(id=id)
-	user = Users.objects.get(id=request.session['user_id'])
+	destroyed = Messages.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
 	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')
