@@ -12,6 +12,7 @@ urlpatterns = [
 	path('subjects/<int:subject_id>/update', views.update_subject),
 	path('subjects/<int:subject_id>/delete', views.delete_subject),
 	path('create_assignment/<int:subject_id>', views.create_assignment),
+	path('assignments/<int:assignment_id>/delete', views.delete_assignment),
 	path('login', views.user_login),
 	path('logout',views.logout),
 	path('inbox/<int:id>',views.inbox),
