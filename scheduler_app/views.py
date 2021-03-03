@@ -43,7 +43,7 @@ def subject_page(request, subject_id):
                 'user': user[0],
                 'subject': Subject.objects.get(id=subject_id),
                 'assignments':Assignment.objects.all(),
-				'subject_id': subject_id
+                'subject_id': subject_id
 
             }
             return render(request, 'class_page.html', context)
@@ -193,7 +193,7 @@ def create_subject(request):
             description=request.POST['description'],
             teacher=user
         )
-        
+        request.session['subject_id'] = subject.id
         return redirect('/profile')
     return redirect("/")
 
@@ -251,7 +251,7 @@ def create_assignment(request, subject_id):
 
 
 def delete_assignment(request, assignment_id):
-    subject = Subject.objects.get(id=subject_id)
+    subject=Subject.objects.get(id=request.session['subject_id'])
     assignment = Assignment.objects.get(id=assignment_id)
     assignment.delete()
     return redirect(f'/subjects/{subject.id}')
