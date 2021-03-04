@@ -272,7 +272,7 @@ def delete_subject(request, subject_id):
 
 
 def create_assignment(request, subject_id):
-    errors = Assignment.objects.assignment_validator(request.POST)
+    errors = Assignment.objects.validate(request.POST)
 
     if len(errors):
         for key, value in errors.items():
@@ -307,19 +307,37 @@ def delete_student (request, student_id):
 	delete_student.delete()
 	return redirect ('/all_classes')
 
+#Parent Functions
 def parent(request, user_id):
     if 'user_id' in request.session:  #Is the user logged in
 
         this_user = User.objects.filter(id=request.session['user_id']),
         context = {
                 'user': User.objects.get(id=request.session['user_id']), #create instance of user to add to record
-                'allstudents': Student.objects.all(), #All students
+                #'allstudents': Student.objects.all(), #All students
 				'mystudents': Student.objects.filter(user=user_id), #Grab Only User students
-				#'mystudents': this_user.students.all(),	# get all the kids this user has
-				'subjects': Subject.objects.all(), #All subjects
+				'notmystudents': Student.objects.exclude(user=user_id), #Grab Only User students
+				#'subjects': Subject.objects.all(), #All subjects
             }
         return render(request,'parent.html', context) #if valid user than we move on to success
     return redirect("/login") #no matter what success handles the view and the session
+
+def assignparent(request, student_id):
+	if 'user_id' in request.session:  #Is the user logged in
+		user = User.objects.get(id=request.session['user_id']) #create instance of user to add to student
+		studenttoassign =  Student.objects.get(id=student_id) #create instance of student to assign parent
+		studenttoassign.user.add(user) #Many to many we add
+		studenttoassign.save()
+
+	return redirect(f"/parent/{user.id}")
+
+def viewstudent(request, student_id):
+	context = {
+		"assign": Assignment.objects.all(),
+		"teacher" : User.objects.all(),
+		"this_student":Student.objects.get(id=student_id)
+	}
+	return render(request, 'student_page.html', context)
 
 #INBOX METHOD
 def send_message(request):
