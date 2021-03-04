@@ -7,22 +7,21 @@
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-	<title>Teacher Page</title>
+	<title>{{ subject.name }}</title>
 </head>
 <body>
 	<header>
-		<h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
+		<h1>{{  subject.name }} Page</h1>
 		<nav>
-            <a href="">Home</a>|
+            <a href="/profile">Home</a>|
             <a href="inbox/{{user.id}}">Inbox</a>|
-            <a href="/all_tasks">Task List</a>|
-            <a href="/logout">Log Out</a> |
-            <a href="/add_student">Add Student</a>
+            <a href="/all_tasks">Task List</a>
+            <a href="/logout">Log Out</a>
         </nav>
 	</header>
-	<div class="subjects">
+	<div class="assignments">
         <section>
-            <h3>Add Classes</h3>
+            <h3>Add Assignment</h3>
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -30,16 +29,13 @@
                 {% endfor %}
             </ul>
             {% endif %}
-            <form action="/create_subject" method="post">
+            <form action="/create_assignment/{{subject.id}}" method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="name">Class Name:</label><input name="name" type="text" class="form-control">
+                    <label for="title">Title:</label><input name="title" type="text" class="form-control">
                 </div>
                 <div class="form-group">
-                    <label for="url">Lecture URL:</label><input name="url" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="lecture_date">Lecture Date:</label><input name="lecture_date" type="date" class="form-control">
+                    <label for="due_date">Due Date:</label><input name="due_date" type="date" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="description">Description:</label><textarea class="form-control" rows="3" cols="20"
@@ -52,24 +48,22 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Class</th>
-                        <th>Lecture URL</th>
+                        <th>Title</th>
+                        <th>Due Date</th>
                         <th>Description</th>
-                        <th>Date</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for subject in user.teacher_subjects.all %}
+                {% for assignment in subject.subject_assignments.all %}
                     <tr>
-                        <td><a href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
-                        <td><a href="">{{ subject.url }}</a></td>
-                        <td>{{ subject.description }}</td>
-                        <td>{{ subject.lecture_date }}</td>
+                        <td>{{assignment.title}}</td>
+                        <td>{{assignment.due_date}}</a></td>
+                        <td>{{assignment.description}}</td>
                         <td>
                             <nav>
-                                <a href="/subjects/{{ subject.id }}/edit">Edit</a>|
-                                <a href="/subjects/{{ subject.id }}/delete">Delete</a>
+                                <a href="/assignments/{{ assignment.id }}/edit">Edit</a>|
+                                <a href="/assignments/{{ assignment.id }}/delete">Delete</a> 
                             </nav>
                         </td>
                     </tr>
