@@ -168,6 +168,23 @@ def user_login(request):
 			return redirect('/profile')
 
 #POST: Create / Add student
+# def add_student(request):
+# 	print('Can I add a student to the db? ')
+# 	if request.method == "POST":
+# 		error = Student.objects.validate(request.POST)
+# 		if error:
+# 			messages.error(request, error)
+# 			return redirect ('/all_classes')
+# 		else:
+# 			this_user = User.objects.get(id=request.session['user_id'])
+# 			add_new_student = Student.objects.create(
+# 				first_name = request.POST['first_name'],
+# 				last_name = request.POST['last_name'],
+# 				user = this_user
+# 				)
+# 			return redirect ('/all_classes')
+# 	return redirect ('/')
+
 def add_student(request):
 	print('Can I add a student to the db? ')
 	if request.method == "POST":
@@ -175,15 +192,14 @@ def add_student(request):
 		if error:
 			messages.error(request, error)
 			return redirect ('/all_classes')
+		this_user = User.objects.get(id=request.session['user_id'])
 		add_new_student = Student.objects.create(
 			first_name = request.POST['first_name'],
 			last_name = request.POST['last_name'],
 		)
-		user = User.objects.get(id=request.session['user_id'])
-		#add student to user = i.e. to teacher who is logged in [user_id]
-		user.user_students.add(add_new_student)
+		# add student to user = i.e. to teacher who is logged in [user_id]
+		add_new_student.user.add(this_user)
 	return redirect ('/all_classes')
-
 
 def delete_sent_message(request, id):
 	destroyed = Message.objects.get(id=id)
@@ -246,26 +262,38 @@ def delete_subject(request, subject_id):
 
 
 def create_assignment(request, subject_id):
-    errors = Assignment.objects.assignment_validator(request.POST)
+	errors = Assignment.objects.validate(request.POST)
 
-    if len(errors):
-        for key, value in errors.items():
-            messages.error(request, value)
-        return redirect('/subject_page')
-    print('have we gotten this far?')
-    print(subject_id)
-    user = User.objects.get(id=request.session['user_id'])
-    subject = Subject.objects.get(id=subject_id)
-    assignment = Assignment.objects.create(
-        title=request.POST['title'],
-        due_date=request.POST['due_date'],
-        description=request.POST['description'],
-        teacher=user,
-        subject=subject
+	if len(errors):
+		for key, value in errors.items():
+			messages.error(request, value)
+		return redirect('/subject_page')
+	print('have we gotten this far?')
+	print(subject_id)
+	user = User.objects.get(id=request.session['user_id'])
+	subject = Subject.objects.get(id=subject_id)
+	print('trying to create an assignment?')
+	print('request title', request.POST['title'])
+	print('request due date', request.POST['due_date'])
+	print('request desc', request.POST['description'])
+	assignment = Assignment.objects.create(
+		title=request.POST['title'],
+		due_date=request.POST['due_date'],
+		description=request.POST['description'],
+		teacher = user,
+		subject=subject    
+		)
+	return redirect(f'/subjects/{subject.id}')
 
-        )
-        
-    return redirect(f'/subjects/{subject.id}')
+
+# def assignparent(request, student_id):
+# 	if 'user_id' in request.session:  #Is the user logged in
+# 		user = User.objects.get(id=request.session['user_id']) #create instance of user to add to student
+# 		studenttoassign =  Student.objects.get(id=student_id) #create instance of student to assign parent
+# 		studenttoassign.user.add(user) #Many to many we add
+# 		studenttoassign.save()
+
+# 	return redirect(f"/parent/{user.id}")
 
 
 def delete_assignment(request, assignment_id):
