@@ -17,7 +17,7 @@ urlpatterns = [
 	path('all_classes',views.all_classes),
 	path('add_student',views.add_student),
 	path('edit_assign',views.edit_assign),
-	path('student_assign',views.student_assign),
+	path('student_assign/<int:student_id>',views.student_assign),
 	path('delete/<int:student_id>',views.delete_student),
 	path('logout',views.logout),
 	path('inbox/<int:id>',views.inbox),
@@ -28,4 +28,6 @@ urlpatterns = [
 	path('delete_sent_message/<int:id>', views.delete_sent_message),
 	path('login_reg', views.login_reg),
 	path('parent/<int:user_id>',views.parent),
+	path('assignparent/<int:student_id>', views.assignparent),
+	path('viewstudent/<int:student_id>', views.viewstudent),
 ]

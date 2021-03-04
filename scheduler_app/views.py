@@ -20,7 +20,7 @@ def logout(request):
 
 def profile(request):
     if 'user_id' in request.session:
-        user = Users.objects.filter(id=request.session['user_id'])
+        user = User.objects.filter(id=request.session['user_id'])
         if user:
             context = {
                 'user': user[0],
@@ -32,14 +32,14 @@ def profile(request):
 
 def subject_page(request, subject_id):
     if 'user_id' in request.session:
-        user = Users.objects.filter(id=request.session['user_id'])
+        user = User.objects.filter(id=request.session['user_id'])
         if user:
+            print("Testing")
             context = {
                 'user': user[0],
                 'subject': Subject.objects.get(id=subject_id),
                 'assignments':Assignment.objects.all(),
                 'subject_id': subject_id
-
             }
             return render(request, 'class_page.html', context)
     return redirect('/')
@@ -47,7 +47,7 @@ def subject_page(request, subject_id):
 
 def edit_subject(request, subject_id):
     if 'user_id' in request.session:
-        user = Users.objects.filter(id=request.session['user_id'])
+        user = User.objects.filter(id=request.session['user_id'])
         if user:
             context = {
                 'user': user[0],
@@ -59,19 +59,24 @@ def edit_subject(request, subject_id):
 
 def all_classes(request):
 	context = {
-		"all_student": Student.objects.all()
+		"all_student": Student.objects.all(),
+        "all_subjects":Subject.objects.all(),
+        "teacher":User.objects.all(),
+        "student_assignment":Assignment.objects.all()
+
 	}
 	return render(request, 'all_classes.html', context)
 
 def edit_assign(request):
 	return render(request, 'edit_assignment.html')
 
-def student_assign(request):
+def student_assign(request, student_id):
 	context = {
 		"assign": Assignment.objects.all(),
 		"teacher" : User.objects.all(),
+		"this_student":Student.objects.get(id=student_id)
 	}
-	return render(request, 'student_page.html')
+	return render(request, 'student_page.html', context)
 
 def class_profile(request):
 	context = {
@@ -83,6 +88,32 @@ def logout(request):
 	request.session.flush()
 	return redirect('/')
 
+def inbox(request, id):
+	user = User.objects.get(id=request.session['user_id'])
+	context = {
+		'user': user,
+		'messages': Message.objects.all(),
+		'all_users': User.objects.all(),
+	}
+	return render(request, 'inbox.html', context)
+
+def open_message(request, id):
+	user = User.objects.get(id=request.session['user_id'])
+	message = Message.objects.get(id=id)
+	context = {
+		'user': user,
+		'message': message,
+	}
+	return render(request, 'opened_message.html', context)
+
+def new_message(request):
+	user = User.objects.get(id=request.session['user_id'])
+	context = {
+		'user': user,
+		'messages': Message.objects.all(),
+		'all_users': User.objects.all(),
+	}
+	return render(request, 'new_message.html', context)
 
 #<---------POST METHODS------>
 
@@ -163,6 +194,23 @@ def user_login(request):
 			return redirect('/profile')
 
 #POST: Create / Add student
+# def add_student(request):
+# 	print('Can I add a student to the db? ')
+# 	if request.method == "POST":
+# 		error = Student.objects.validate(request.POST)
+# 		if error:
+# 			messages.error(request, error)
+# 			return redirect ('/all_classes')
+# 		else:
+# 			this_user = User.objects.get(id=request.session['user_id'])
+# 			add_new_student = Student.objects.create(
+# 				first_name = request.POST['first_name'],
+# 				last_name = request.POST['last_name'],
+# 				user = this_user
+# 				)
+# 			return redirect ('/all_classes')
+# 	return redirect ('/')
+
 def add_student(request):
 	print('Can I add a student to the db? ')
 	if request.method == "POST":
@@ -170,33 +218,32 @@ def add_student(request):
 		if error:
 			messages.error(request, error)
 			return redirect ('/all_classes')
+		this_user = User.objects.get(id=request.session['user_id'])
 		add_new_student = Student.objects.create(
 			first_name = request.POST['first_name'],
 			last_name = request.POST['last_name'],
 		)
-		user = User.objects.get(id=request.session['user_id'])
-		#add student to user = ie teacher
-		user.user_students.add(add_new_student)
+		# add student to user = i.e. to teacher who is logged in [user_id]
+		add_new_student.user.add(this_user)
 	return redirect ('/all_classes')
 
-
 def delete_sent_message(request, id):
-	destroyed = inbox_messages.objects.get(id=id)
-	user = Users.objects.get(id=request.session['user_id'])
+	destroyed = Message.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
 	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')
 
 #SUBJECT METHOD
 def create_subject(request):
-    errors = Subject.objects.subject_validator(request.POST)
+    errors = Subject.objects.validate(request.POST)
 
     if len(errors):
         for key, value in errors.items():
             messages.error(request, value)
         return redirect('/profile')
     else:
-        user = Users.objects.get(id=request.session['user_id'])
+        user = User.objects.get(id=request.session['user_id'])
         request.session['user_id'] = user.id
         request.session['user_name']=f"{user.first_name}"
         subject = Subject.objects.create(
@@ -241,26 +288,38 @@ def delete_subject(request, subject_id):
 
 
 def create_assignment(request, subject_id):
-    errors = Assignment.objects.assignment_validator(request.POST)
+	errors = Assignment.objects.validate(request.POST)
 
-    if len(errors):
-        for key, value in errors.items():
-            messages.error(request, value)
-        return redirect('/subject_page')
-    print('have we gotten this far?')
-    print(subject_id)
-    user = Users.objects.get(id=request.session['user_id'])
-    subject = Subject.objects.get(id=subject_id)
-    assignment = Assignment.objects.create(
-        title=request.POST['title'],
-        due_date=request.POST['due_date'],
-        description=request.POST['description'],
-        teacher=user,
-        subject=subject
+	if len(errors):
+		for key, value in errors.items():
+			messages.error(request, value)
+		return redirect('/subject_page')
+	print('have we gotten this far?')
+	print(subject_id)
+	user = User.objects.get(id=request.session['user_id'])
+	subject = Subject.objects.get(id=subject_id)
+	print('trying to create an assignment?')
+	print('request title', request.POST['title'])
+	print('request due date', request.POST['due_date'])
+	print('request desc', request.POST['description'])
+	assignment = Assignment.objects.create(
+		title=request.POST['title'],
+		due_date=request.POST['due_date'],
+		description=request.POST['description'],
+		teacher = user,
+		subject=subject    
+		)
+	return redirect(f'/subjects/{subject.id}')
 
-        )
-        
-    return redirect(f'/subjects/{subject.id}')
+
+# def assignparent(request, student_id):
+# 	if 'user_id' in request.session:  #Is the user logged in
+# 		user = User.objects.get(id=request.session['user_id']) #create instance of user to add to student
+# 		studenttoassign =  Student.objects.get(id=student_id) #create instance of student to assign parent
+# 		studenttoassign.user.add(user) #Many to many we add
+# 		studenttoassign.save()
+
+# 	return redirect(f"/parent/{user.id}")
 
 
 def delete_assignment(request, assignment_id):
@@ -276,16 +335,58 @@ def delete_student (request, student_id):
 	delete_student.delete()
 	return redirect ('/all_classes')
 
+#Parent Functions
 def parent(request, user_id):
     if 'user_id' in request.session:  #Is the user logged in
 
-        this_user = Users.objects.filter(id=request.session['user_id']),
+        this_user = User.objects.filter(id=request.session['user_id']),
         context = {
-                'user': Users.objects.get(id=request.session['user_id']), #create instance of user to add to record
-                'allstudents': students.objects.all(), #All students
-				'mystudents': students.objects.filter(user=user_id), #Grab Only User students
-				#'mystudents': this_user.students.all(),	# get all the kids this user has
-				'subjects': subjects.objects.all(), #All subjects
+                'user': User.objects.get(id=request.session['user_id']), #create instance of user to add to record
+                #'allstudents': Student.objects.all(), #All students
+				'mystudents': Student.objects.filter(user=user_id), #Grab Only User students
+				'notmystudents': Student.objects.exclude(user=user_id), #Grab Only User students
+				#'subjects': Subject.objects.all(), #All subjects
             }
         return render(request,'parent.html', context) #if valid user than we move on to success
     return redirect("/login") #no matter what success handles the view and the session
+
+def assignparent(request, student_id):
+	if 'user_id' in request.session:  #Is the user logged in
+		user = User.objects.get(id=request.session['user_id']) #create instance of user to add to student
+		studenttoassign =  Student.objects.get(id=student_id) #create instance of student to assign parent
+		studenttoassign.user.add(user) #Many to many we add
+		studenttoassign.save()
+
+	return redirect(f"/parent/{user.id}")
+
+def viewstudent(request, student_id):
+	context = {
+		"assign": Assignment.objects.all(),
+		"teacher" : User.objects.all(),
+		"this_student":Student.objects.get(id=student_id)
+	}
+	return render(request, 'student_page.html', context)
+
+#INBOX METHOD
+def send_message(request):
+	new_message = Message.objects.create(
+        subject = request.POST['subject'],
+		message = request.POST['message'],
+		sender = User.objects.get(id=request.session['user_id']),
+        recipient = User.objects.get(id=request.POST['recipient']),
+    )
+	return redirect('/profile')
+
+def delete_inbox_message(request, id):
+	destroyed = Message.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
+	if destroyed.recipient == user:
+		destroyed.delete()
+	return redirect('/profile')
+
+def delete_sent_message(request, id):
+	destroyed = Messages.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
+	if destroyed.sender == user:
+		destroyed.delete()
+	return redirect('/profile')
