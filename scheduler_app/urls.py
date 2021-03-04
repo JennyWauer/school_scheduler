@@ -14,6 +14,11 @@ urlpatterns = [
 	path('create_assignment/<int:subject_id>', views.create_assignment),
 	path('assignments/<int:assignment_id>/delete', views.delete_assignment),
 	path('login', views.user_login),
+	path('all_classes',views.all_classes),
+	path('add_student',views.add_student),
+	path('edit_assign',views.edit_assign),
+	path('student_assign',views.student_assign),
+	path('delete/<int:student_id>',views.delete_student),
 	path('logout',views.logout),
 	path('inbox/<int:id>',views.inbox),
 	path('send', views.send_message),
@@ -21,4 +26,6 @@ urlpatterns = [
 	path('new_message', views.new_message),
 	path('delete_inbox_message/<int:id>', views.delete_inbox_message),
 	path('delete_sent_message/<int:id>', views.delete_sent_message),
+	path('login_reg', views.login_reg),
+	path('parent/<int:user_id>',views.parent),
 ]

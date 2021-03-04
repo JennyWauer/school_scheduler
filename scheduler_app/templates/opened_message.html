@@ -4,30 +4,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Scheduler</title>
+    <title>{{message.subject}}</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
-    <header>
-        <h3>{{message.subject}}</h3>
-        <a href="/profile">Home</a>
-        <a href="/inbox/{{user.id}}">Inbox</a>
-		<a href="/logout">Logout</a>
+<body class="background">
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+        <h2 class="pr-5 mb-0">{{message.subject}}</h2>
+        <a href="/profile" class="btn ml-auto">Home</a>
+        <a href="inbox/{{user.id}}" class="btn ml-1 inbox-btn">Inbox</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
-    <div>
-        <p>From: {{message.sender.first_name}} {{message.sender.last_name}}</p>
-        <p>Message: {{message.message}}</p>
+    <div class="w-50 ml-auto mr-auto form-background mt-5 rounded shadow-sm p-4">
+        <div class="w-50 ml-auto mr-auto">
+            <h4>Original Message</h4>
+            <p>From: {{message.sender.first_name}} {{message.sender.last_name}}</p>
+            <p>Message: {{message.message}}</p>
+        </div>
+        <div class="w-50 ml-auto mr-auto">
+            <h4>Reply</h4>
+            <form id="reply_message" action="/send" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="Subject">Subject</label>
+                    <input type="text" id="subject" name="subject" class="form-control" >
+                </div>
+                <div class="mb-3">
+                    <label for="message">Message</label>
+                    <textarea id='message_body' name='message' class="form-control" ></textarea>
+                </div>
+                <input type="submit" name="submit" id="submit" value="Reply" class="btn submit">
+            </form>
+        </div>
     </div>
-    <div>
-        <form id="reply_message" action="/send" method="POST">
-            {% csrf_token %}
-                <label for="Subject">Subject</label>
-                <input type="text"  id="subject" name="subject">
-                <label for="message">Message</label>
-                <textarea id='message_body' name='message'></textarea>
-                <label for="recipient">Choose a recipient:</label>
-                <input type="hidden" id="recipient" name="recipient" value="{{message.sender.id}}">
-                <button>Reply</button>
-        </form>
-    </div>
+   
 </body>
 </html>

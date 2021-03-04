@@ -1,0 +1,35 @@
+html {
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.body {
+    background-image: url("../img/home-background.jpg");
+    background-size: cover;
+}
+
+.about {
+    background-color: #08D9D6;
+}
+
+#sign-in, .inbox-btn {
+    background-color: #FF2E63;
+    color: #eaeaea;
+}
+
+#header {
+    color: #252a34;
+}
+
+.login-background, .new-message-background, .background {
+    background-color: #eaeaea;
+}
+
+.login-form, .new-message-form, .form-background {
+    background-color: white;
+}
+
+.submit, .logout, .compose {
+    background-color: #08D9D6;
+    color: white;
+    font-weight: bold;
+}
