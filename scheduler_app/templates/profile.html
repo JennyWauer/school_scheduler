@@ -16,7 +16,8 @@
             <a href="">Home</a>|
             <a href="inbox/{{user.id}}">Inbox</a>|
             <a href="/all_tasks">Task List</a>|
-            <a href="/logout">Log Out</a>
+            <a href="/logout">Log Out</a> |
+            <a href="/add_student">Add Student</a>
         </nav>
 	</header>
 	<div class="subjects">
@@ -59,7 +60,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for subject in subjects %}
+                {% for subject in user.teacher_subjects.all %}
                     <tr>
                         <td><a href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
                         <td><a href="">{{ subject.url }}</a></td>

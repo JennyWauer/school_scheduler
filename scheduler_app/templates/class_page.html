@@ -55,11 +55,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for assignment in assignments %}
+                {% for assignment in subject.subject_assignments.all %}
                     <tr>
-                        <td>{{ assignment.title }}</td>
-                        <td>{{ assignment.due_date}}</a></td>
-                        <td>{{ assignment.description }}</td>
+                        <td>{{assignment.title}}</td>
+                        <td>{{assignment.due_date}}</a></td>
+                        <td>{{assignment.description}}</td>
                         <td>
                             <nav>
                                 <a href="/assignments/{{ assignment.id }}/edit">Edit</a>|
