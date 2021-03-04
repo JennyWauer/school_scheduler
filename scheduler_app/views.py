@@ -88,6 +88,32 @@ def logout(request):
 	request.session.flush()
 	return redirect('/')
 
+def inbox(request, id):
+	user = User.objects.get(id=request.session['user_id'])
+	context = {
+		'user': user,
+		'messages': Message.objects.all(),
+		'all_users': User.objects.all(),
+	}
+	return render(request, 'inbox.html', context)
+
+def open_message(request, id):
+	user = User.objects.get(id=request.session['user_id'])
+	message = Message.objects.get(id=id)
+	context = {
+		'user': user,
+		'message': message,
+	}
+	return render(request, 'opened_message.html', context)
+
+def new_message(request):
+	user = User.objects.get(id=request.session['user_id'])
+	context = {
+		'user': user,
+		'messages': Message.objects.all(),
+		'all_users': User.objects.all(),
+	}
+	return render(request, 'new_message.html', context)
 
 #<---------POST METHODS------>
 
@@ -294,3 +320,27 @@ def parent(request, user_id):
             }
         return render(request,'parent.html', context) #if valid user than we move on to success
     return redirect("/login") #no matter what success handles the view and the session
+
+#INBOX METHOD
+def send_message(request):
+	new_message = Message.objects.create(
+        subject = request.POST['subject'],
+		message = request.POST['message'],
+		sender = User.objects.get(id=request.session['user_id']),
+        recipient = User.objects.get(id=request.POST['recipient']),
+    )
+	return redirect('/profile')
+
+def delete_inbox_message(request, id):
+	destroyed = Message.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
+	if destroyed.recipient == user:
+		destroyed.delete()
+	return redirect('/profile')
+
+def delete_sent_message(request, id):
+	destroyed = Messages.objects.get(id=id)
+	user = User.objects.get(id=request.session['user_id'])
+	if destroyed.sender == user:
+		destroyed.delete()
+	return redirect('/profile')
