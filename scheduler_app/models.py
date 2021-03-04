@@ -3,26 +3,26 @@ import re
 import bcrypt
 from datetime import datetime
 
-class UserManager(models.Manager):
+class UsersManager(models.Manager):
     def validate(self, form):
         errors = {}
-        # if form['first_name'] == 'first_name':
-        if len(form['first_name']) < 2:
-            errors['first_name'] = "First name must be at least 2 characters"
-        # if form['last_name'] == 'last_name':
-        if len(form['last_name']) < 2:
-            errors['last_name'] = "Last name must be at least 2 characters"
-        # if form['email'] == 'email':
-        # if not EMAIL_REGEX.match(form['email']):            
-        #         errors['email'] = ("Invalid email address!")
+        if form['first_name'] == 'first_name':
+            if len(form['value']) < 2:
+                errors['first_name'] = "First name must be at least 2 characters"
+        if form['last_name'] == 'last_name':
+            if len(form['value']) < 2:
+                errors['last_name'] = "Last name must be at least 2 characters"
+        if form['email'] == 'email':
+            if not EMAIL_REGEX.match(form['email']):            
+                errors['email'] = ("Invalid email address!")
         email_check = self.filter(email=form['email'])
         if email_check:
             errors['email'] = "Email already in use"
-        if form['password'] == 'password' and len(form['password']) < 8:
+        if form['password'] == 'password' and len(form['value']) < 8:
             errors['password'] = "Password must be at least 8 characters"
         return errors
 
-class User(models.Model):
+class Users(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True)
@@ -30,37 +30,36 @@ class User(models.Model):
     role = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # teacher_subjects
-    # user_students i.e.teacher/parent
-    objects = UserManager()
+    objects = UsersManager()
     def __repr__(self):
         return f"<ID: ({self.id}) \nName:{self.first_name} {self.last_name}>"
 
 
-class StudentManager(models.Manager):
+class studentsManager(models.Manager):
     def validate(self, form):
         errors = {}
-        # if form['first_name'] == 'first_name':
-        if len(form['first_name']) < 2:
-            errors['first_name'] = "First name must be at least 2 characters"
-        # if form['last_name'] == 'last_name':
-        if len(form['last_name']) < 2:
-            errors['last_name'] = "Last name must be at least 2 characters"
+        if form['first_name'] == 'first_name':
+            if len(form['value']) < 2:
+                errors['first_name'] = "First name must be at least 2 characters"
+        if form['last_name'] == 'last_name':
+            if len(form['value']) < 2:
+                errors['last_name'] = "Last name must be at least 2 characters"
         return errors
 
-class Student(models.Model):
+
+class students(models.Model):
 	first_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
-	user = models.ManyToManyField(User, related_name="user_students")
+	user = models.ManyToManyField(Users, related_name="user_students")
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
-	objects = StudentManager()
+	objects = studentsManager()
 	def __repr__(self):
 		return f"<ID: ({self.id}) \nName:{self.first_name} {self.last_name}>"
 
 
 class SubjectManager(models.Manager):
-    def validate(self, form):
+    def subject_validator(self, form):
         errors = {}
         if len(form['name']) < 3:
             errors['name'] = "Subject name must be at least 3 characters"
@@ -72,23 +71,23 @@ class SubjectManager(models.Manager):
             errors["lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
+
 class Subject(models.Model):
 	name = models.CharField(max_length=45)
 	url = models.TextField()
 	lecture_date = models.DateTimeField()
 	description = models.TextField()
-	teacher = models.ForeignKey(User, related_name="teacher_subjects",on_delete = models.CASCADE)
-	enrolled_students = models.ManyToManyField(Student, related_name="enrolled_subjects")
+	teacher = models.ForeignKey(Users, related_name="teacher_subjects",on_delete = models.CASCADE)
+	enrolled_students = models.ManyToManyField(students, related_name="enrolled_subjects")
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	objects = SubjectManager()
-    # subject_assignment
 	def repr(self):
 		return f"<ID: ({self.id}) \nName:{self.name}>"
 
 
 class AssignmentManager(models.Manager):
-	def validate(self, form):
+	def assignment_validator(self, form):
 		errors = {}
 		if len(form['title']) < 3:
 			errors['title'] = "Title must be at least 3 characters"
@@ -111,7 +110,7 @@ class Assignment(models.Model):
 		return f"<ID: ({self.id}) \nTitle:{self.title}>"
 
 
-class MessageManager(models.Manager):
+class inbox_messagesManager(models.Manager):
     def validate(self, form):
         errors = {}
         if len(form['subject']) < 0:
@@ -120,11 +119,11 @@ class MessageManager(models.Manager):
             errors['description'] = "Message field cannot be empty"
         return errors
 
-class Message(models.Model):
+class inbox_messages(models.Model):
     subject = models.CharField(max_length=255)
     message = models.TextField()
-    sender = models.ForeignKey(User, related_name="sent_messages",on_delete = models.CASCADE)
-    recipient = models.ForeignKey(User, related_name="received_messages",on_delete = models.CASCADE)
+    sender = models.ForeignKey(Users, related_name="sent_messages",on_delete = models.CASCADE)
+    recipient = models.ForeignKey(Users, related_name="received_messages",on_delete = models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = inbox_messagesManager()
