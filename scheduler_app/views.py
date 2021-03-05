@@ -14,6 +14,21 @@ def login_reg(request):
 def add_user(request):
 	return render(request, 'login_reg.html')
 
+
+def roster_list(request, subject_id):
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            request.session['subject_id'] = subject_id
+            context = {
+                'user': user[0],
+                'mysubjects':Subject.objects.get(id=subject_id),
+				'class_students':Student.objects.filter(enrolled_subjects=subject_id),
+                'non_class_students':Student.objects.exclude(enrolled_subjects=subject_id),
+            }
+            return render(request, 'roster.html', context)
+    return redirect('/')
+
 def logout(request):
 	request.session.flush()
 	return redirect('/')
@@ -35,6 +50,7 @@ def subject_page(request, subject_id):
         user = User.objects.filter(id=request.session['user_id'])
         if user:
             print("Testing")
+            request.session['subject_id'] = subject_id
             context = {
                 'user': user[0],
                 'subject': Subject.objects.get(id=subject_id),
@@ -72,9 +88,10 @@ def edit_assign(request):
 
 def student_assign(request, student_id):
 	context = {
-		"assign": Assignment.objects.all(),
+		'myassignments': Assignment.objects.filter(id=student_id),
 		"teacher" : User.objects.all(),
-		"this_student":Student.objects.get(id=student_id)
+		"this_student":Student.objects.get(id=student_id),
+		"mysubjects": Subject.objects.filter(enrolled_students=student_id)
 	}
 	return render(request, 'student_page.html', context)
 
@@ -193,39 +210,26 @@ def user_login(request):
 		else:
 			return redirect('/profile')
 
-#POST: Create / Add student
-# def add_student(request):
-# 	print('Can I add a student to the db? ')
-# 	if request.method == "POST":
-# 		error = Student.objects.validate(request.POST)
-# 		if error:
-# 			messages.error(request, error)
-# 			return redirect ('/all_classes')
-# 		else:
-# 			this_user = User.objects.get(id=request.session['user_id'])
-# 			add_new_student = Student.objects.create(
-# 				first_name = request.POST['first_name'],
-# 				last_name = request.POST['last_name'],
-# 				user = this_user
-# 				)
-# 			return redirect ('/all_classes')
-# 	return redirect ('/')
+
 
 def add_student(request):
-	print('Can I add a student to the db? ')
-	if request.method == "POST":
-		error = Student.objects.validate(request.POST)
-		if error:
-			messages.error(request, error)
-			return redirect ('/all_classes')
-		this_user = User.objects.get(id=request.session['user_id'])
-		add_new_student = Student.objects.create(
-			first_name = request.POST['first_name'],
-			last_name = request.POST['last_name'],
-		)
-		# add student to user = i.e. to teacher who is logged in [user_id]
-		add_new_student.user.add(this_user)
-	return redirect ('/all_classes')
+    print('Can I add a student to the db? ')
+    if request.method == "POST":
+        error = Student.objects.validate(request.POST)
+        if error:
+            messages.error(request, error)
+            return redirect ('/all_classes')
+        this_user = User.objects.get(id=request.session['user_id'])
+        add_new_student = Student.objects.create(
+            first_name = request.POST['first_name'],
+            last_name = request.POST['last_name'],
+        )
+        # add student to user = i.e. to teacher who is logged in [user_id]
+        add_new_student.user.add(this_user)
+        subject_id=request.session['subject_id'] 
+    return redirect (f'roster/{subject_id}')
+
+
 
 def delete_sent_message(request, id):
 	destroyed = Message.objects.get(id=id)
@@ -256,12 +260,6 @@ def create_subject(request):
         request.session['subject_id'] = subject.id
         return redirect('/profile')
     return redirect("/")
-
-
-def edit_subject(request, subject_id):
-    subject = Subject.objects.get(id=subject_id)
-    subject.delete()
-    return redirect('/profile')
 
 
 def update_subject(request, subject_id):
@@ -359,9 +357,11 @@ def assignparent(request, student_id):
 
 	return redirect(f"/parent/{user.id}")
 
+
 def viewstudent(request, student_id):
 	context = {
-		"assign": Assignment.objects.all(),
+		'myassignments': Assignment.objects.filter(id=student_id),
+		# "assign": Assignment.objects.all(),
 		"teacher" : User.objects.all(),
 		"this_student":Student.objects.get(id=student_id)
 	}
@@ -390,3 +390,15 @@ def delete_sent_message(request, id):
 	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')
+
+def roster_assign(request, student_id):
+    if 'user_id' in request.session:  #Is the user logged in
+        user = User.objects.get(id=request.session['user_id']) #create instance of user to add to student
+        subject = Subject.objects.get(id=request.session['subject_id']) # gives us a specific instance of a subject
+        studenttoassign =  Student.objects.get(id=student_id) #create instance of student to assign subject
+        studenttoassign.enrolled_subjects.add(subject)
+        # studenttoassign.user.add(user) #Many to many we add
+        studenttoassign.save()
+    return redirect(f"/roster/{subject.id}")
+
+

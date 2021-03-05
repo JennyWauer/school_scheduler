@@ -1,65 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-	<title>Teacher Page</title>
+    <title>Teacher Page</title>
 </head>
+
 <body>
-	<header>
-		<h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
-		<nav>
-            <a href="">Home</a>|
-            <a href="inbox/{{user.id}}">Inbox</a>|
-            <a href="/all_tasks">Task List</a>|
-            <a href="/logout">Log Out</a> |
-            <a href="/add_student">Add Student</a>
+    <header>
+        <h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
+        <nav>
+            <a class="btn btn-outline-primary" href="inbox/{{user.id}}">Inbox</a>
+            <a class="btn btn-outline-primary"href="/all_tasks">Task List</a>
+            <a class="btn btn-outline-primary"href="/add_student">Add Student</a>
+            <a class="btn btn-outline-primary"href="/logout">Log Out</a> 
         </nav>
-	</header>
-	<div class="subjects">
-        <section>
-            <h3>Add Classes</h3>
-            {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            <form action="/create_subject" method="post">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="name">Class Name:</label><input name="name" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="url">Lecture URL:</label><input name="url" type="text" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="lecture_date">Lecture Date:</label><input name="lecture_date" type="date" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description:</label><textarea class="form-control" rows="3" cols="20"
-                        name="description"></textarea>
-                </div>
-                <button class="btn btn-primary">Add</button>
-            </form>
-        </section>
-        <section>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Class</th>
-                        <th>Lecture URL</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
+    </header>
+    <div class="starter-template text-center py-5 px-3">
+        <div class="card">
+            <div class="card-body">
+                <h3>Add Classes</h3>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form action="/create_subject" method="post">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Class Name:</span>
+                        <input type="text" class="form-control" id="floatingPassword" name="name" >
+                    </div>
+                    <div class="form-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Lecture URL:</span>
+                        <input type="text" class="form-control" id="floatingPassword" name="url" >
+                    </div>
+                    <div class="form-group mb- date">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Lecture Date:</span>
+                        <input type="date" name="lecture_date" class="form-control datepicker" />
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Description:</span>
+                        <textarea class="form-control" rows="3" cols="20" name="description"></textarea>
+                    </div>
+                    <button class="btn btn-primary">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <section>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Lecture URL</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for subject in user.teacher_subjects.all %}
                     <tr>
                         <td><a href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
@@ -69,14 +79,16 @@
                         <td>
                             <nav>
                                 <a href="/subjects/{{ subject.id }}/edit">Edit</a>|
-                                <a href="/subjects/{{ subject.id }}/delete">Delete</a>
+                                <a href="/subjects/{{ subject.id }}/delete">Delete</a>|
+                                <a class="btn btn-outline-primary" href="/roster/{{subject.id}}" role="button">Roster</a>
                             </nav>
                         </td>
                     </tr>
                 {% endfor %}
-                </tbody>
-            </table>
-        </section>
+            </tbody>
+        </table>
+    </section>
     </div>
 </body>
+
 </html>

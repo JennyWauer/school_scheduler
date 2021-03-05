@@ -31,20 +31,17 @@
 				</tr>
 			</thead>
 			<tbody>
+				{% for subject in this_student.enrolled_subjects.all  %}
+					{% for assignment in subject.subject_assignments.all %}
 				<tr>
-					<td>Math</td>
-					<td>Project </td>
-					<td>Mrs. Teacher1</td>
-					<td>1.2.21</td>
-					<td>Send Message</td>
-					</tr>
-				<tr>
-					<td>Mary</td>
-					<td>Moe</td>
-					<td>mary@example.com</td>
-					<td>john@example.com</td>
-					<td>john@example.com</td>
+					<td>{{subject.name}}</td>
+					<td>{{assignment.description}}</td>
+					<td>{{assignment.teacher.first_name}} {{assignment.teacher.last_name}}</td>
+					<td>{{assignment.due_date}}</td>
+					<td><a href ="inbox/{{student.id}}">Send Message</a></td>
 				</tr>
+					{% endfor %}
+				{% endfor %}
 			</tbody>
 		</table>
 	</div>
