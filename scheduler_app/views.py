@@ -258,12 +258,6 @@ def create_subject(request):
     return redirect("/")
 
 
-def edit_subject(request, subject_id):
-    subject = Subject.objects.get(id=subject_id)
-    subject.delete()
-    return redirect('/profile')
-
-
 def update_subject(request, subject_id):
     if request.method=='POST':
         errors = Subject.objects.subject_validator(request.POST)
