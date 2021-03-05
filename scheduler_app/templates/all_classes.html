@@ -19,6 +19,7 @@
 				<a class="btn btn-outline-primary" href="/" role="button">Home</a>
 				<a class="btn btn-outline-primary" href="" role="button">Dashboard</a>
 				<a class="btn btn-outline-primary" href="/logout" role="button">Logout</a>
+				<a class="btn btn-outline-primary" href="/roster/{{subject.id}}" role="button">Roster</a>
 			</div>
 			<br>
 			<h2> All Classes List </h2>
@@ -42,14 +43,14 @@
 							<td>None </td>
 							<td>Description</td>
 							<td>Lecture</td>
-							<td><a href="/edit_assign">Edit</a> | <a href="/delete/{{student.id}}">Delete</a> | <a href="">Send Messages</a></td>
+							<td><a href="/edit_assign">Edit</a> | <a href="/delete/{{student.id}}">Delete</a> | <a href="inbox/{{student.id}}">Send Messages</a></td>
 							<!-- "/edit_assign/{{assignment.id}}/update" -->
 						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 		</div>
-		<div class="starter-template text-center py-5 px-3">
+		<!-- <div class="starter-template text-center py-5 px-3">
 			<div class="card">
 				<div class="card-body">
 					<h2>Add a Student</h2>
@@ -60,6 +61,7 @@
    							{% endfor %}
 							</ul>
 						{% endif %} 
+
 						<form action="/add_student" method="POST">
 							{% csrf_token %}
 							<div class="input-group mb-3">
@@ -70,14 +72,17 @@
 								<span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
 								<input type="text" class="form-control" id="floatingPassword" name="last_name" placeholder="Last Name">
 							</div>
-							<!-- <div class="input-group mb-3">
-								<span class="input-group-text" id="inputGroup-sizing-default">Subject</span>
-								<input type="text" class="form-control" id="floatingPassword" name="subject" placeholder="Subject">
-							</div>  -->
+							<div class="input-group mb-3">
+								<label class="input-group-text" for="inputGroupSelect01" id="inputGroup-sizing-default" name="subject">Subject</label>
+								<input type="text" class="form-control" id="floatingPassword" name="skill_level"> 
+								<select class="form-select" id="inputGroupSelect01" name="subject" >
+									<option value="{{subject.id}}" selected>Choose...</option>
+								</select> 
+							</div>
 							<button class="btn btn-primary" type="submit">Submit</button>
 						</form>
 					</div>
-				</div>
+				</div>  -->
 			</div>
 		</main>
 	</div>

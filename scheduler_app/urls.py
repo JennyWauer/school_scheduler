@@ -30,4 +30,6 @@ urlpatterns = [
 	path('parent/<int:user_id>',views.parent),
 	path('assignparent/<int:student_id>', views.assignparent),
 	path('viewstudent/<int:student_id>', views.viewstudent),
+	path('roster/<int:subject_id>',views.roster_list),
+	path('assign_subject/<int:student_id>',views.roster_assign)
 ]
