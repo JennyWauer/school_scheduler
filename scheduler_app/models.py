@@ -57,6 +57,7 @@ class Student(models.Model):
 	objects = StudentManager()
 	def __repr__(self):
 		return f"<ID: ({self.id}) \nName:{self.first_name} {self.last_name}>"
+    # enrolled_subjects
 
 
 class SubjectManager(models.Manager):

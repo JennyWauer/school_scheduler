@@ -64,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for assignment in subject.subject_assignments.all %}
+                {% for assignment in subject.subject_assignments.all %}
                     <tr>
                         <td>{{assignment.title}}</td>
                         <td>{{assignment.due_date}}</a></td>
@@ -72,7 +72,8 @@
                         <td>
                             <nav>
                                 <a href="/assignments/{{ assignment.id }}/edit">Edit</a>|
-                                <a href="/assignments/{{ assignment.id }}/delete">Delete</a>
+                                <a href="/assignments/{{ assignment.id }}/delete">Delete</a> |
+                                <a href="/edit_assign">Edit</a>|
                             </nav>
                         </td>
                     </tr>
@@ -80,6 +81,33 @@
                 </tbody>
             </table>
         </section>
+        <div class="starter-template text-center py-5 px-3">
+			<div class="card">
+				<div class="card-body">
+					<h2>Add a Student</h2>
+						{% if messages %}
+							<ul class="messages">    
+    						{% for message in messages %}    
+       							<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+   							{% endfor %}
+							</ul>
+						{% endif %} 
+						
+						<form action="/add_student" method="POST">
+							{% csrf_token %}
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
+								<input type="text" class="form-control" id="floatingPassword" name="first_name" placeholder="First Name">
+							</div>
+							<div class="input-group mb-3">
+								<span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
+								<input type="text" class="form-control" id="floatingPassword" name="last_name" placeholder="Last Name">
+							</div>
+							<button class="btn btn-primary" type="submit">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
     </div>
 </body>
 
