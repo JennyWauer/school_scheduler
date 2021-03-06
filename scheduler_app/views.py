@@ -80,12 +80,13 @@ def edit_subject(request, subject_id):
     return redirect('/')
 
 def all_classes(request):
+	user = User.objects.filter(id=request.session['user_id'])
 	context = {
 		"all_student": Student.objects.all(),
         "all_subjects":Subject.objects.all(),
         "teacher":User.objects.all(),
-        "student_assignment":Assignment.objects.all()
-
+        "student_assignment":Assignment.objects.all(),
+		'user': user[0],
 	}
 	return render(request, 'all_classes.html', context)
 
