@@ -16,7 +16,7 @@
     <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
         <h2 class="pr-5 mb-0">{{message.subject}}</h2>
         <a href="/profile" class="btn ml-auto">Home</a>
-        <a href="inbox/{{user.id}}" class="btn ml-1 inbox-btn">Inbox</a>
+        <a href="/inbox/{{user.id}}" class="btn ml-1 inbox-btn">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
     <div class="w-50 ml-auto mr-auto form-background mt-5 rounded shadow-sm p-4">
@@ -37,6 +37,7 @@
                     <label for="message">Message</label>
                     <textarea id='message_body' name='message' class="form-control" ></textarea>
                 </div>
+                <input type="hidden" id="recipient" name="recipient" value="{{message.sender.id}}">
                 <input type="submit" name="submit" id="submit" value="Reply" class="btn submit">
             </form>
         </div>
