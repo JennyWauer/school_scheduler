@@ -16,8 +16,8 @@
         <h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
         <nav>
             <a class="btn btn-outline-primary" href="inbox/{{user.id}}">Inbox</a>
-            <a class="btn btn-outline-primary"href="/all_tasks">Task List</a>
-            <a class="btn btn-outline-primary"href="/add_student">Add Student</a>
+            <!-- <a class="btn btn-outline-primary"href="/all_tasks">All Classes</a> -->
+            <!-- <a class="btn btn-outline-primary"href="/add_student">Add Student</a> -->
             <a class="btn btn-outline-primary"href="/logout">Log Out</a> 
         </nav>
     </header>
@@ -80,7 +80,7 @@
                             <nav>
                                 <a href="/subjects/{{ subject.id }}/edit">Edit</a>|
                                 <a href="/subjects/{{ subject.id }}/delete">Delete</a>|
-                                <a class="btn btn-outline-primary" href="/roster/{{subject.id}}" role="button">Roster</a>
+                                <a href="/roster/{{subject.id}}" role="button">Roster</a>
                             </nav>
                         </td>
                     </tr>
