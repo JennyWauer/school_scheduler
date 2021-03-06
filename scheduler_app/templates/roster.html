@@ -21,47 +21,51 @@
         <a class="btn inbox-btn" href="inbox/{{user.id}}">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
-        <div>
-        <h2>My Class Roster</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in class_students %}
-                <!-- This grabs the filtered my students using my user id-->
-                <tr>
-                    <td>{{student.first_name}} {{student.last_name}} </td>
-                    <td><a href="/viewstudent/{{student.id}}">Student Page</a> | </td>
-                    <td><a href="/delete/{{student.id}}">Delete </a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="d-flex ml-auto mr-auto">
+        <div class="w-50">
+            <h2>My Class Roster</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in class_students %}
+                    <!-- This grabs the filtered my students using my user id-->
+                    <tr>
+                        <td>{{student.first_name}} {{student.last_name}} </td>
+                        <td><a href="/viewstudent/{{student.id}}">Student Page</a> | </td>
+                        <td><a href="/delete/{{student.id}}">Delete </a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="w-50">
+            <h2>Assigning Students</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in non_class_students %}
+                    <!-- This grabs the filtered not my students using my user id-->
+                    <tr>
+                        <td>{{student.first_name}} {{student.last_name}}</td>
+                        <td><a href="/assign_subject/{{student.id}}">Assign</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div>
-        <h2>Assigning Students</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in non_class_students %}
-                <!-- This grabs the filtered not my students using my user id-->
-                <tr>
-                    <td>{{student.first_name}} {{student.last_name}}</td>
-                    <td><a href="/assign_subject/{{student.id}}">Assign</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    
+    
 </body>
 
 </html>
