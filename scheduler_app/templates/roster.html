@@ -15,6 +15,12 @@
 </head>
 
 <body>
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+        <h1>{{mysubjects.name}}</h1>
+        <a href="/profile" class="ml-auto nav-link">Home</a>
+        <a class="btn inbox-btn" href="inbox/{{user.id}}">Inbox</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
+    </header>
     <div>
         <h2>{{mysubjects.name}}</h2>
         <a href="/">Home | </a>
