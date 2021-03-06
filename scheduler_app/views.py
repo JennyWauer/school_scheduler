@@ -74,10 +74,9 @@ def edit_subject(request, subject_id):
         if user:
             context = {
                 'user': user[0],
-				'subjects': Subject.objects.all(),
                 'edit_subject': Subject.objects.get(id=subject_id),
             }
-            return render(request, 'profile.html', context)
+            return render(request, 'edit_subject.html', context)
     return redirect('/')
 
 def all_classes(request):
@@ -90,8 +89,16 @@ def all_classes(request):
 	}
 	return render(request, 'all_classes.html', context)
 
-def edit_assign(request):
-	return render(request, 'edit_assignment.html')
+def edit_assignment(request, assignment_id):
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            context = {
+                'user': user[0],
+                'edit_assignment': Assignment.objects.get(id=assignment_id),
+            }
+            return render(request, 'edit_assignment.html', context)
+    return redirect('/')
 
 def student_assign(request, student_id):
 	context = {
@@ -250,7 +257,7 @@ def create_subject(request):
 
 def update_subject(request, subject_id):
     if request.method=='POST':
-        errors = Subject.objects.subject_validator(request.POST)
+        errors = Subject.objects.validate_update(request.POST)
         if len(errors):
             for key, value in errors.items():
                 messages.error(request, value)
@@ -262,7 +269,7 @@ def update_subject(request, subject_id):
         my_subject.description=request.POST['new_description']
         my_subject.save()
 
-    return redirect(f'/subject/{subject_id}')
+    return redirect(f'/profile')
 
 
 def delete_subject(request, subject_id):
@@ -294,6 +301,38 @@ def create_assignment(request, subject_id):
 		subject=subject    
 		)
 	return redirect(f'/subjects/{subject.id}')
+
+def update_assignment(request, assignment_id):
+    print('edit this now!')
+    if request.method=='POST':
+        subject_id=request.session['subject_id'] 
+        errors = Assignment.objects.validate_update(request.POST)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect(f'/assignments/{assignment_id}/edit')
+        print('getting subject')
+        subject = Subject.objects.get(id=subject_id)
+        print('passing assignment id')
+        my_assignment=Assignment.objects.get(id=assignment_id)
+        print('passing title')
+        my_assignment.title=request.POST['new_title']
+        my_assignment.due_date=request.POST['new_due_date']
+        my_assignment.description=request.POST['new_description']
+        my_assignment.save()
+
+    return redirect(f'/subjects/{subject.id}')
+
+
+# def assignparent(request, student_id):
+# 	if 'user_id' in request.session:  #Is the user logged in
+# 		user = User.objects.get(id=request.session['user_id']) #create instance of user to add to student
+# 		studenttoassign =  Student.objects.get(id=student_id) #create instance of student to assign parent
+# 		studenttoassign.user.add(user) #Many to many we add
+# 		studenttoassign.save()
+
+# 	return redirect(f"/parent/{user.id}")
+
 
 def delete_assignment(request, assignment_id):
     subject=Subject.objects.get(id=request.session['subject_id'])

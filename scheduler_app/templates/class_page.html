@@ -73,13 +73,12 @@
                 {% for assignment in subject.subject_assignments.all %}
                     <tr>
                         <td>{{assignment.title}}</td>
-                        <td>{{assignment.due_date}}</a></td>
+                        <td>{{assignment.due_date|date:'Y-m-d'}}</a></td>
                         <td>{{assignment.description}}</td>
                         <td>
                             <nav>
                                 <a href="/assignments/{{ assignment.id }}/edit">Edit</a>|
-                                <a href="/assignments/{{ assignment.id }}/delete">Delete</a> |
-                                <a href="/edit_assign">Edit</a>|
+                                <a href="/assignments/{{ assignment.id }}/delete">Delete</a> 
                             </nav>
                         </td>
                     </tr>
