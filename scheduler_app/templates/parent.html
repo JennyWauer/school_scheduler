@@ -12,13 +12,11 @@
     <script src='main.js'></script>
 </head>
 <body>
-    <div>
-        <h2>Parent Profile</h2>
-        <a class="btn btn-outline-primary" href="/inbox/{{user.id}}">Inbox</a>
-        <a class="btn btn-outline-primary" href="/logout">Log Out</a>
-        <h3>Welcome {{user.first_name}}</h3>
-    </div>
-
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+        <h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
+        <a class="btn ml-auto inbox-btn" href="inbox/{{user.id}}">Inbox</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
+    </header>
     <div>
         <h2>My Attending Children</h2>
         <table>
