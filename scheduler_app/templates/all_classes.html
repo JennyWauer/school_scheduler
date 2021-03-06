@@ -20,34 +20,36 @@
 		<a class="btn ml-1 inbox-btn" href="inbox/{{user.id}}">Inbox</a>
 		<a href="/logout" class="btn ml-1 logout">Logout</a>
 	</header>
-			<h2> All Classes List </h2>
-			<p>This table lists all of the classes and assignments for one Teacher.</p>            
-			<table class="table table-striped">
-				<thead>
+	<div class="w-75 ml-auto mr-auto">
+		<h2> All Classes List </h2>
+		<p>This table lists all of the classes and assignments for one Teacher.</p>            
+		<table class="table table-bordered table-striped table-hover ml-5">
+			<thead>
+				<tr class="table-header">
+					<th>Subject</th>
+					<th>Student</th>
+					<th>Assignment</th>
+					<th>Description</th>
+					<th>Lecture Links</th>
+					<th>Action </th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for student in all_student %}
 					<tr>
-						<th>Subject</th>
-						<th>Student</th>
-						<th>Assignment</th>
-						<th>Description</th>
-						<th>Lecture Links</th>
-						<th>Action </th>
+						<td>Math</td>
+						<td><a class="table-link" href="/student_assign/{{student.id}}"> {{student.first_name}} {{student.last_name}} </a></td>
+						<td>None </td>
+						<td>Description</td>
+						<td>Lecture</td>
+						<td><a class="table-link" href="/edit_assign">Edit</a> | <a class="table-link" href="/delete/{{student.id}}">Delete</a> | <a class="table-link" href="inbox/{{student.id}}">Send Messages</a></td>
+						<!-- "/edit_assign/{{assignment.id}}/update" -->
 					</tr>
-				</thead>
-				<tbody>
-					{% for student in all_student %}
-						<tr>
-							<td>Math</td>
-							<td><a href="/student_assign/{{student.id}}"> {{student.first_name}} {{student.last_name}} </a></td>
-							<td>None </td>
-							<td>Description</td>
-							<td>Lecture</td>
-							<td><a href="/edit_assign">Edit</a> | <a href="/delete/{{student.id}}">Delete</a> | <a href="inbox/{{student.id}}">Send Messages</a></td>
-							<!-- "/edit_assign/{{assignment.id}}/update" -->
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+			
 		<!-- <div class="starter-template text-center py-5 px-3">
 			<div class="card">
 				<div class="card-body">
@@ -81,6 +83,5 @@
 						</form>
 					</div>
 				</div>  -->
-			</div>
 </body>
 </html>
