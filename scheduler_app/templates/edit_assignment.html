@@ -22,7 +22,7 @@
         <a class="nav-link p-2" href="inbox/{{user.id}}">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
-		<form action="/assignments/{{edit_assignment.id}}/update" method="POST" class="form-example w-50 ml-auto mr-auto mt-5">
+		<form action="/assignments/{{edit_assignment.id}}/update" method="POST" class="form-background form-example w-50 ml-auto mr-auto mt-5 p-4 rounded shadow-sm">
 			{% csrf_token %}
 			<div class="input-group mb-3">
 				<span class="input-group-text" id="inputGroup-sizing-default">Title</span>
