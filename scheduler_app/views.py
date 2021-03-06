@@ -361,7 +361,6 @@ def assignparent(request, student_id):
 def viewstudent(request, student_id):
 	context = {
 		'myassignments': Assignment.objects.filter(id=student_id),
-		# "assign": Assignment.objects.all(),
 		"teacher" : User.objects.all(),
 		"this_student":Student.objects.get(id=student_id)
 	}

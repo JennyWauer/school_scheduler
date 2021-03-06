@@ -5,6 +5,8 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Welcome Parent</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src='main.js'></script>
@@ -12,9 +14,8 @@
 <body>
     <div>
         <h2>Parent Profile</h2>
-        <a href="/logout">Home |</a>
-        <a href="/logout"> Inbox |</a>
-        <a href="/logout"> Log Out</a>
+        <a class="btn btn-outline-primary" href="/inbox/{{user.id}}">Inbox</a>
+        <a class="btn btn-outline-primary" href="/logout">Log Out</a>
         <h3>Welcome {{user.first_name}}</h3>
     </div>
 
