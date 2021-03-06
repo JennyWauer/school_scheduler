@@ -13,7 +13,8 @@ html {
 
 #sign-in, .inbox-btn {
     background-color: #FF2E63;
-    color: #eaeaea;
+    color: white;
+    font-weight: bold;
 }
 
 #header {
