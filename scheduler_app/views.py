@@ -317,13 +317,19 @@ def create_assignment(request, subject_id):
 	return redirect(f'/subjects/{subject.id}')
 
 def update_assignment(request, assignment_id):
+    print('edit this now!')
     if request.method=='POST':
-        errors = Subject.objects.validate_update(request.POST)
+        subject_id=request.session['subject_id'] 
+        errors = Assignment.objects.validate_update(request.POST)
         if len(errors):
             for key, value in errors.items():
                 messages.error(request, value)
-            return redirect(f'/subjects/{subject_id}/edit')
+            return redirect(f'/assignments/{assignment_id}/edit')
+        print('getting subject')
+        subject = Subject.objects.get(id=subject_id)
+        print('passing assignment id')
         my_assignment=Assignment.objects.get(id=assignment_id)
+        print('passing title')
         my_assignment.title=request.POST['new_title']
         my_assignment.due_date=request.POST['new_due_date']
         my_assignment.description=request.POST['new_description']

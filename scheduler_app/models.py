@@ -111,6 +111,16 @@ class AssignmentManager(models.Manager):
 			errors["due_date"] = "Due date cannot be in the past"
 		return errors
 
+	def validate_update(self, form):
+		errors = {}
+		if len(form['new_title']) < 3:
+			errors['new_title'] = "Title must be at least 3 characters"
+		if len(form['new_description']) < 4:
+			errors['new_description'] = "Description must be at least 4 characters"
+		if datetime.strptime(form['new_due_date'], '%Y-%m-%d') <= datetime.now():
+			errors['new_due_date'] = "Due date cannot be in the past"
+		return errors
+
 class Assignment(models.Model):
 	title = models.CharField(max_length=45)
 	subject = models.ForeignKey(Subject, related_name="subject_assignments",on_delete = models.CASCADE)

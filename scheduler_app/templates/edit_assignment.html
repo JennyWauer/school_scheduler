@@ -21,7 +21,7 @@
 					<!-- <a href="/profile" class="btn btn-primary">Register</a> -->
 				</div>
 				<h1>Edit Assignment</h1>
-				<form action="" method="POST" class="form-example">
+				<form action="/assignments/{{edit_assignment.id}}/update" method="POST" class="form-example">
 					{% csrf_token %}
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="inputGroup-sizing-default">Title</span>
@@ -29,7 +29,7 @@
 					</div>
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="inputGroup-sizing-default">Due Date</span>
-						<input type="date" class="form-control" id="floatingPassword" name="date" value="{{edit_assignment.due_date|date:'Y-m-d'}}">
+						<input type="date" class="form-control" id="floatingPassword" name="new_due_date" value="{{edit_assignment.due_date|date:'Y-m-d'}}">
 					</div>
 					<div class="input-group mb-3">
 						<span class="input-group-text" id="inputGroup-sizing-default">Description</span>
@@ -40,6 +40,7 @@
 						<textarea class="form-control" name="desc" rows="5" id="comment"></textarea>
 					</div> -->
 					<div>
+						<a href="/subject_page" role="button" class="btn btn-warning">Cancel</a>
 						<button type="submit" class="btn btn-primary btn-sm"> Update </button>
 					</div>
 				</form>
