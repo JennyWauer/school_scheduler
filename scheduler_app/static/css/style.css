@@ -35,7 +35,7 @@ html {
     font-weight: bold;
 }
 
-.table-header, .class-form-label {
+.table-header, .class-form-label, .assignment-form-label {
     background-color: #001a33;
     color: white;
     font-weight: bold;
