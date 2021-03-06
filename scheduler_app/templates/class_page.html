@@ -63,27 +63,30 @@
                     <form action="/create_assignment/{{subject.id}}" method="post">
                         {% csrf_token %}
                         <div class="form-group mb-3">
-                            <span class="input-group-text assignment-form-label" id="inputGroup-sizing-default">Title:</span>
+                            <span class="input-group-text assignment-form-label"
+                                id="inputGroup-sizing-default">Title:</span>
                             <input type="text" class="form-control" id="floatingPassword" name="title">
                         </div>
-        
+
                         <div class="form-group mb- date">
-                            <span class="input-group-text assignment-form-label" id="inputGroup-sizing-default">Due Date:</span>
+                            <span class="input-group-text assignment-form-label" id="inputGroup-sizing-default">Due
+                                Date:</span>
                             <input type="date" name="due_date" class="form-control datepicker" />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                         <div class="form-group mb-3">
-                            <span class="input-group-text assignment-form-label" id="inputGroup-sizing-default">Description:</span>
+                            <span class="input-group-text assignment-form-label"
+                                id="inputGroup-sizing-default">Description:</span>
                             <textarea class="form-control" rows="3" cols="20" name="description"></textarea>
                         </div>
                         <button class="btn submit">Add</button>
                     </form>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </div>
     </div>
 
