@@ -67,7 +67,7 @@
                 {% for assignment in subject.subject_assignments.all %}
                     <tr>
                         <td>{{assignment.title}}</td>
-                        <td>{{assignment.due_date}}</a></td>
+                        <td>{{assignment.due_date|date:'Y-m-d'}}</a></td>
                         <td>{{assignment.description}}</td>
                         <td>
                             <nav>
