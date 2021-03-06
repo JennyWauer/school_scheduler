@@ -17,45 +17,52 @@
         <a class="btn ml-auto inbox-btn" href="inbox/{{user.id}}">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
-    <div>
-        <h2>My Attending Children</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in mystudents %}  <!-- This grabs the filtered my students using my user id-->
+    <div class="d-flex ml-auto mr-auto">
+        <div class="w-50">
+            <h2 class="text-center">My Attending Children</h2>
+            <div class="ml-auto mr-auto w-100">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in mystudents %}  <!-- This grabs the filtered my students using my user id-->
+                            <tr>
+                                <td>{{student.first_name}} {{student.last_name}} </td>
+                                <td><a href="/viewstudent/{{student.id}}">Student Page</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="w-50">
+            <h2>Assigning Children</h2>
+            <table>
+                <thead>
                     <tr>
-                        <td>{{student.first_name}} {{student.last_name}} </td>
-                        <td><a href="/viewstudent/{{student.id}}">Student Page</a></td>
+                        <th>Name</th>
+                        <th>Action</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for student in notmystudents %}  <!-- This grabs the filtered not my students using my user id-->
+                        <tr>
+                            <td>{{student.first_name}} {{student.last_name}}</td>
+                            <td><a href="/assignparent/{{student.id}}">Assign</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
+    
 
-    <div>
-        <h2>Assigning Children</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for student in notmystudents %}  <!-- This grabs the filtered not my students using my user id-->
-                    <tr>
-                        <td>{{student.first_name}} {{student.last_name}}</td>
-                        <td><a href="/assignparent/{{student.id}}">Assign</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    
 
 </body>
 </html>
