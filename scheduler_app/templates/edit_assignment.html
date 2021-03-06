@@ -16,34 +16,35 @@
 
 <body class="background">
 	<header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
-        <h1>Edit Asignment</h1>
-        <a class="ml-auto nav-link p-2" href="/profile">Home</a> |
-        <a class="nav-link p-2" href="/roster/{{subject_id}}">Class Roster</a> |
-        <a class="nav-link p-2" href="inbox/{{user.id}}">Inbox</a>
-        <a href="/logout" class="btn ml-1 logout">Logout</a>
-    </header>
-		<form action="/assignments/{{edit_assignment.id}}/update" method="POST" class="form-background form-example w-50 ml-auto mr-auto mt-5 p-4 rounded shadow-sm">
-			{% csrf_token %}
-			<div class="input-group mb-3">
-				<span class="input-group-text mr-1" id="inputGroup-sizing-default">Title</span>
-				<input type="text" class="form-control" id="floatingPassword" name="new_title"
-					value="{{edit_assignment.title}}">
-			</div>
-			<div class="input-group mb-3">
-				<span class="input-group-text mr-1" id="inputGroup-sizing-default">Due Date</span>
-				<input type="date" class="form-control" id="floatingPassword" name="new_due_date"
-					value="{{edit_assignment.due_date|date:'Y-m-d'}}">
-			</div>
-			<div class="input-group mb-3">
-				<span class="input-group-text mr-1" id="inputGroup-sizing-default">Description</span>
-				<textarea class="form-control" name="new_description" rows="5"
-					id="comment">{{edit_assignment.description}}</textarea>
-			</div>
-			<div>
-				<a href="/subject_page" role="button" class="btn btn-warning font-weight-bold">Cancel</a>
-				<button type="submit" class="btn submit"> Update </button>
-			</div>
-		</form>
+		<h1>Edit Asignment</h1>
+		<a class="ml-auto nav-link p-2" href="/profile">Home</a> |
+		<a class="nav-link p-2" href="/roster/{{subject_id}}">Class Roster</a> |
+		<a class="nav-link p-2" href="inbox/{{user.id}}">Inbox</a>
+		<a href="/logout" class="btn ml-1 logout">Logout</a>
+	</header>
+	<form action="/assignments/{{edit_assignment.id}}/update" method="POST"
+		class="form-background form-example w-50 ml-auto mr-auto mt-5 p-4 rounded shadow-sm">
+		{% csrf_token %}
+		<div class="input-group mb-3">
+			<span class="input-group-text mr-1" id="inputGroup-sizing-default">Title</span>
+			<input type="text" class="form-control" id="floatingPassword" name="new_title"
+				value="{{edit_assignment.title}}">
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text mr-1" id="inputGroup-sizing-default">Due Date</span>
+			<input type="date" class="form-control" id="floatingPassword" name="new_due_date"
+				value="{{edit_assignment.due_date|date:'Y-m-d'}}">
+		</div>
+		<div class="input-group mb-3">
+			<span class="input-group-text mr-1" id="inputGroup-sizing-default">Description</span>
+			<textarea class="form-control" name="new_description" rows="5"
+				id="comment">{{edit_assignment.description}}</textarea>
+		</div>
+		<div>
+			<a href="/subject_page" role="button" class="btn btn-warning font-weight-bold">Cancel</a>
+			<button type="submit" class="btn submit"> Update </button>
+		</div>
+	</form>
 	</div>
 
 </body>
