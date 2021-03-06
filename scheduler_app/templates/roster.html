@@ -10,8 +10,8 @@
     <div class="container">
         <div>
             <h2>{{mysubjects.name}}</h2>
-            <a href="/">Home |</a>
-            <a href="/logout"> Inbox |</a>
+            <a href="/">Home | </a>
+            <a href="/inbox/{{user.id}}"> Inbox | </a>
             <a href="/logout"> Log Out</a>
             <h3>Welcome {{user.first_name}}</h3>
         </div>
@@ -29,14 +29,15 @@
                     {% for student in class_students %}  <!-- This grabs the filtered my students using my user id-->
                         <tr>
                             <td>{{student.first_name}} {{student.last_name}} </td>
-                            <td><a href="/viewstudent/{{student.id}}">Student Page</a></td>
+                            <td><a href="/viewstudent/{{student.id}}">Student Page</a> | </td>
+                            <td><a href="/delete/{{student.id}}">Delete </a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
         <div>
-            <h2>Assigning Children</h2>
+            <h2>Assigning Students</h2>
             <table>
                 <thead>
                     <tr>

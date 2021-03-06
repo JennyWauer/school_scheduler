@@ -73,6 +73,18 @@ class SubjectManager(models.Manager):
             errors["lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
+    def validate_update(self, form):
+        errors = {}
+        if len(form['new_name']) < 3:
+            errors['new_name'] = "Subject name must be at least 3 characters"
+        if len(form['new_description']) < 10:
+            errors['new_description'] = "Description must be at least 10 characters"
+        if len(form['new_url']) < 10:
+            errors['new_url'] = "Description must be at least 10 characters"
+        if datetime.strptime(form['new_lecture_date'], '%Y-%m-%d') <= datetime.now():
+            errors["new_lecture_date"] = "Lecture date cannot be in the past"
+        return errors
+
 class Subject(models.Model):
 	name = models.CharField(max_length=45)
 	url = models.TextField()
@@ -97,6 +109,16 @@ class AssignmentManager(models.Manager):
 			errors['description'] = "Description must be at least 4 characters"
 		if datetime.strptime(form['due_date'], '%Y-%m-%d') <= datetime.now():
 			errors["due_date"] = "Due date cannot be in the past"
+		return errors
+
+	def validate_update(self, form):
+		errors = {}
+		if len(form['new_title']) < 3:
+			errors['new_title'] = "Title must be at least 3 characters"
+		if len(form['new_description']) < 4:
+			errors['new_description'] = "Description must be at least 4 characters"
+		if datetime.strptime(form['new_due_date'], '%Y-%m-%d') <= datetime.now():
+			errors['new_due_date'] = "Due date cannot be in the past"
 		return errors
 
 class Assignment(models.Model):

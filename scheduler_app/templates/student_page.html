@@ -14,8 +14,7 @@
 <body>
     <div class="container">
 		<div>
-			<a class="btn btn-outline-primary" href="/" role="button">Home</a>
-			<a class="btn btn-outline-primary" href="/" role="button">Inbox</a>
+			<a class="btn btn-outline-primary" href="/profile" role="button">Home</a>
 			<a class="btn btn-outline-primary" href="/logout" role="button">Logout</a>
 		</div>
         <h2> {{this_student.first_name}}'s Assignment List </h2>
@@ -24,6 +23,7 @@
 			<thead>
 				<tr>
 					<th>Subject</th>
+					<th>Title</th>
 					<th>Description</th>
 					<th>Teacher</th>
 					<th>Due Date</th>
@@ -35,10 +35,11 @@
 					{% for assignment in subject.subject_assignments.all %}
 				<tr>
 					<td>{{subject.name}}</td>
+					<td>{{assignment.title}}</td>
 					<td>{{assignment.description}}</td>
 					<td>{{assignment.teacher.first_name}} {{assignment.teacher.last_name}}</td>
 					<td>{{assignment.due_date}}</td>
-					<td><a href ="inbox/{{student.id}}">Send Message</a></td>
+					<td><a href ="inbox/{{user.id}}">Send Message</a></td>
 				</tr>
 					{% endfor %}
 				{% endfor %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Edit Class</title>
+</head>
+
+<body>
+    <header>
+        <h1>Edit {{subject.name}} Class</h1>
+        <nav>
+            <a class="btn btn-outline-primary" href="inbox/{{user.id}}">Inbox</a>
+            <a class="btn btn-outline-primary"href="/all_tasks">Task List</a>
+            <a class="btn btn-outline-primary"href="/add_student">Add Student</a>
+            <a class="btn btn-outline-primary"href="/logout">Log Out</a> 
+        </nav>
+    </header>
+    <div class="starter-template text-center py-5 px-3">
+        <div class="card">
+            <div class="card-body">
+                <h3>Add Classes</h3>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form action="/subjects/{{edit_subject.id}}/update" method="post">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Class Name:</span>
+                        <input type="text" class="form-control" id="floatingPassword" name="new_name" value="{{edit_subject.name}}">
+                    </div>
+                    <div class="form-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Lecture URL:</span>
+                        <input type="text" class="form-control" id="floatingPassword" name="new_url" value="{{edit_subject.url}}">
+                    </div>
+                    <div class="form-group mb- date">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Lecture Date:</span>
+                        <input type="date" name="new_lecture_date" value="{{edit_subject.lecture_date|date:'Y-m-d' }}" class="form-control datepicker" />
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Description:</span>
+                        <textarea class="form-control" rows="3" cols="20" name="new_description">{{edit_subject.description}}</textarea>
+                    </div>
+                    <a href="/profile" role="button" class="btn btn-warning">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
