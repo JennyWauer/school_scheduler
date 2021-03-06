@@ -18,7 +18,7 @@ html {
 }
 
 #header {
-    color: #252a34;
+    color: #001a33;
 }
 
 .login-background, .new-message-background, .background {
@@ -33,4 +33,14 @@ html {
     background-color: #08D9D6;
     color: white;
     font-weight: bold;
+}
+
+.table-header, .class-form-label {
+    background-color: #001a33;
+    color: white;
+    font-weight: bold;
+}
+
+.table-link {
+    color: #001a33;
 }
