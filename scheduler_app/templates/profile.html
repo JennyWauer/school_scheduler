@@ -14,14 +14,45 @@
 </head>
 
 <body>
-    <div>
-        <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
-            <h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
-            <a class="btn ml-auto inbox-btn" href="inbox/{{user.id}}">Inbox</a>
-            <a href="/logout" class="btn ml-1 logout">Logout</a>
-        </header>
-        <div class="starter-template text-center py-5 px-3">
-            <div class="card">
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+        <h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
+        <a class="btn ml-auto inbox-btn" href="inbox/{{user.id}}">Inbox</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
+	</header>
+    
+    <div class="d-flex ml-auto mr-auto">
+        <div class="w-50 py-5 px-3">
+            <table class="table table-bordered table-striped table-hover ml-5">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Lecture URL</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject in user.teacher_subjects.all %}
+                        <tr>
+                            <td><a href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
+                            <td><a href="">{{ subject.url }}</a></td>
+                            <td>{{ subject.description }}</td>
+                            <td>{{ subject.lecture_date|date:'Y-m-d' }}</td>
+                            <td>
+                                <nav>
+                                    <a href="/subjects/{{ subject.id }}/edit">Edit</a> |
+                                    <a href="/subjects/{{ subject.id }}/delete">Delete</a> |
+                                    <a href="/roster/{{subject.id}}" role="button">Roster</a>
+                                </nav>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="starter-template text-center py-5 px-3 w-50">
+            <div class="card w-75 ml-auto mr-auto">
                 <div class="card-body">
                     <h3>Add Classes</h3>
                     {% if messages %}
@@ -57,39 +88,8 @@
             </div>
         </div>
     
-        <section>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Class</th>
-                        <th>Lecture URL</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for subject in user.teacher_subjects.all %}
-                        <tr>
-                            <td><a href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
-                            <td><a href="">{{ subject.url }}</a></td>
-                            <td>{{ subject.description }}</td>
-                            <td>{{ subject.lecture_date|date:'Y-m-d' }}</td>
-                            <td>
-                                <nav>
-                                    <a href="/subjects/{{ subject.id }}/edit">Edit</a>|
-                                    <a href="/subjects/{{ subject.id }}/delete">Delete</a>|
-                                    <a href="/roster/{{subject.id}}" role="button">Roster</a>
-                                </nav>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-        </div>
     </div>
-  
+
 
 
     <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
