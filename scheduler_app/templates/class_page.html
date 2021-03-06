@@ -14,17 +14,13 @@
 </head>
 
 <body>
-    <header>
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
         <h1>{{  subject.name }} Page</h1>
-        <nav>
-            <a href="/profile">Home</a> |
-            <a href="inbox/{{user.id}}">Inbox</a> |
-            <a href="/roster/{{subject_id}}">Class Roster</a> |
-            <a href="/logout">Log Out </a>
-
-            <a class="nav-link active" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">Add Student</a>
-        </nav>
-    </header>
+        <a class="ml-auto nav-link p-2" href="/profile">Home</a> |
+        <a class="nav-link p-2" href="/roster/{{subject_id}}">Class Roster</a> |
+        <a class="nav-link p-2" href="inbox/{{user.id}}">Inbox</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
+	</header>
     <div class="starter-template text-center py-5 px-3">
         <div class="card">
             <div class="card-body">

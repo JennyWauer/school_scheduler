@@ -41,6 +41,6 @@ html {
     font-weight: bold;
 }
 
-.table-link {
+.table-link, .nav-link {
     color: #001a33;
 }
