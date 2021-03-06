@@ -22,10 +22,9 @@
         <a class="btn ml-1 inbox-btn" href="inbox/{{user.id}}">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
-    <div class="starter-template text-center py-5 px-3">
-        <div class="card">
+    <div class="starter-template text-center py-5 px-3 w-75 ml-auto mr-auto">
+        <div class="card w-50 ml-auto mr-auto">
             <div class="card-body">
-                <h3>Add Classes</h3>
                 {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -36,25 +35,25 @@
                 <form action="/subjects/{{edit_subject.id}}/update" method="post">
                     {% csrf_token %}
                     <div class="form-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Class Name:</span>
+                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Class Name:</span>
                         <input type="text" class="form-control" id="floatingPassword" name="new_name" value="{{edit_subject.name}}">
                     </div>
                     <div class="form-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Lecture URL:</span>
+                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture URL:</span>
                         <input type="text" class="form-control" id="floatingPassword" name="new_url" value="{{edit_subject.url}}">
                     </div>
                     <div class="form-group mb- date">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Lecture Date:</span>
+                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture Date:</span>
                         <input type="date" name="new_lecture_date" value="{{edit_subject.lecture_date|date:'Y-m-d' }}" class="form-control datepicker" />
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                     <div class="form-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Description:</span>
+                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Description:</span>
                         <textarea class="form-control" rows="3" cols="20" name="new_description">{{edit_subject.description}}</textarea>
                     </div>
-                    <a href="/profile" role="button" class="btn btn-warning">Cancel</a>
-                    <button class="btn btn-primary" type="submit">Update</button>
+                    <a href="/profile" role="button" class="btn btn-warning font-weight-bold">Cancel</a>
+                    <button class="btn submit" type="submit">Update</button>
                 </form>
             </div>
         </div>
