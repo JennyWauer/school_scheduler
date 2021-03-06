@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher Page</title>
     {% load static %}
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
@@ -18,8 +18,8 @@
         <h1>Welcome, {{user.first_name}} {{user.last_name}}</h1>
         <a class="btn ml-auto inbox-btn" href="inbox/{{user.id}}">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
-	</header>
-    
+    </header>
+
     <div class="d-flex ml-auto mr-auto">
         <div class="w-50 py-5 px-3">
             <table class="table table-bordered table-striped table-hover ml-5">
@@ -34,19 +34,19 @@
                 </thead>
                 <tbody>
                     {% for subject in user.teacher_subjects.all %}
-                        <tr>
-                            <td><a class="table-link" href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
-                            <td><a href="">{{ subject.url }}</a></td>
-                            <td>{{ subject.description }}</td>
-                            <td>{{ subject.lecture_date|date:'Y-m-d' }}</td>
-                            <td>
-                                <nav>
-                                    <a class="table-link" href="/subjects/{{ subject.id }}/edit">Edit</a> |
-                                    <a class="table-link" href="/subjects/{{ subject.id }}/delete">Delete</a> |
-                                    <a class="table-link" href="/roster/{{subject.id}}" role="button">Roster</a>
-                                </nav>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><a class="table-link" href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
+                        <td><a href="">{{ subject.url }}</a></td>
+                        <td>{{ subject.description }}</td>
+                        <td>{{ subject.lecture_date|date:'Y-m-d' }}</td>
+                        <td>
+                            <nav>
+                                <a class="table-link" href="/subjects/{{ subject.id }}/edit">Edit</a> |
+                                <a class="table-link" href="/subjects/{{ subject.id }}/delete">Delete</a> |
+                                <a class="table-link" href="/roster/{{subject.id}}" role="button">Roster</a>
+                            </nav>
+                        </td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -65,21 +65,25 @@
                     <form action="/create_subject" method="post">
                         {% csrf_token %}
                         <div class="form-group mb-3">
-                            <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Class Name:</span>
-                            <input type="text" class="form-control" id="floatingPassword" name="name" >
+                            <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Class
+                                Name:</span>
+                            <input type="text" class="form-control" id="floatingPassword" name="name">
                         </div>
                         <div class="form-group mb-3">
-                            <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture URL:</span>
-                            <input type="text" class="form-control" id="floatingPassword" name="url" >
+                            <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture
+                                URL:</span>
+                            <input type="text" class="form-control" id="floatingPassword" name="url">
                         </div>
                         <div class="form-group mb- date">
-                            <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture Date:</span>
+                            <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture
+                                Date:</span>
                             <input type="date" name="lecture_date" class="form-control datepicker" />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                         <div class="form-group mb-3">
-                            <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Description:</span>
+                            <span class="input-group-text class-form-label"
+                                id="inputGroup-sizing-default">Description:</span>
                             <textarea class="form-control" rows="3" cols="20" name="description"></textarea>
                         </div>
                         <button class="btn submit">Add</button>
@@ -87,7 +91,7 @@
                 </div>
             </div>
         </div>
-    
+
     </div>
 
 
@@ -110,11 +114,11 @@
                             <div class="mb-3">
                                 <label  class="form-label">Password</label>
                                 <input type="password" class="form-control"  name="password"  placeholder="Password"> -->
-                                <!-- <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Password"> -->
-                            <!-- </div>
+    <!-- <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Password"> -->
+    <!-- </div>
                             <input class="btn btn-primary" type="submit" value="Submit"> -->
-                            <!-- <button type="button" class="btn btn-primary">Login</button> -->
-                    <!-- </div>
+    <!-- <button type="button" class="btn btn-primary">Login</button> -->
+    <!-- </div>
                     <div class="modal-footer">
                         <a class="dropdown-item" href="/add">New around here? Sign up</a>
                         <a class="dropdown-item" href="#">Forgot password?</a>
@@ -127,9 +131,13 @@
     </div> -->
 
 
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
+        integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+        integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
