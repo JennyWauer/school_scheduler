@@ -19,7 +19,7 @@
 		<h1>Edit Asignment</h1>
 		<a class="ml-auto nav-link p-2" href="/profile">Home</a> |
 		<a class="nav-link p-2" href="/roster/{{subject_id}}">Class Roster</a>
-		<a class="btn ml-1 inbox-btn" href="inbox/{{user.id}}">Inbox</a>
+		<a class="btn ml-1 inbox-btn" href="/inbox/{{user.id}}">Inbox</a>
 		<a href="/logout" class="btn ml-1 logout">Logout</a>
 	</header>
 	<form action="/assignments/{{edit_assignment.id}}/update" method="POST"
