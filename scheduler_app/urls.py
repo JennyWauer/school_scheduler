@@ -24,12 +24,13 @@ urlpatterns = [
 	path('send', views.send_message),
 	path('message/<int:id>', views.open_message),
 	path('new_message', views.new_message),
-	path('delete_inbox_message/<int:id>', views.delete_inbox_message),
-	path('delete_sent_message/<int:id>', views.delete_sent_message),
-	path('login_reg', views.login_reg),
 	path('parent/<int:user_id>',views.parent),
 	path('assignparent/<int:student_id>', views.assignparent),
 	path('viewstudent/<int:student_id>', views.viewstudent),
 	path('roster/<int:subject_id>',views.roster_list),
-	path('assign_subject/<int:student_id>',views.roster_assign)
+	path('assign_subject/<int:student_id>',views.roster_assign),
+	path('delete_inbox_message/<int:id>', views.delete_inbox_message),
+	path('delete_sent_message/<int:id>', views.delete_sent_message),
+	path('login_reg', views.login_reg),
+	path('all_classes', views.all_classes),
 ]
