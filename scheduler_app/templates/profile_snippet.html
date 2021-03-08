@@ -1,13 +1,13 @@
-    <tr>
-            <td><a class="table-link" href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
-            <td><a href="">{{ subject.url }}</a></td>
-            <td>{{ subject.description }}</td>
-            <td>{{ subject.lecture_date|date:'Y-m-d' }}</td>
-            <td>
-                <nav>
-                    <a class="table-link" href="/subjects/{{ subject.id }}/edit">Edit</a> |
-                    <a class="table-link" href="/subjects/{{ subject.id }}/delete">Delete</a> |
-                    <a class="table-link" href="/roster/{{subject.id}}" role="button">Roster</a>
-                </nav>
-            </td>
-    </tr>
+<tr>
+    <td><a class="table-link" href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
+    <td><a href="">{{ subject.url }}</a></td>
+    <td>{{ subject.description }}</td>
+    <td>{{ subject.lecture_date}}</td>
+    <td>
+        <nav>
+            <a class="table-link" href="/subjects/{{ subject.id }}/edit">Edit</a> |
+            <a class="table-link" href="/subjects/{{ subject.id }}/delete">Delete</a> |
+            <a class="table-link" href="/roster/{{subject.id}}" role="button">Roster</a>
+        </nav>
+    </td>
+</tr>

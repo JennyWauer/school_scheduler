@@ -38,7 +38,7 @@ class User(models.Model):
 
 
 class StudentManager(models.Manager):
-    def validate(self, form):
+    def student_validate(self, form):
         errors = {}
         # if form['first_name'] == 'first_name':
         if len(form['first_name']) < 2:
@@ -69,7 +69,9 @@ class SubjectManager(models.Manager):
             errors['description'] = "Description must be at least 10 characters"
         if len(form['url']) < 10:
             errors['url'] = "Description must be at least 10 characters"
-        if datetime.strptime(form['lecture_date'], '%Y-%m-%d') <= datetime.now():
+        if form['lecture_date'] == '':
+            errors["lecture_date"] = "Lecture date cannot be empty"
+        elif datetime.strptime(form['lecture_date'], '%Y-%m-%d') <= datetime.now():
             errors["lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
@@ -81,14 +83,16 @@ class SubjectManager(models.Manager):
             errors['new_description'] = "Description must be at least 10 characters"
         if len(form['new_url']) < 10:
             errors['new_url'] = "Description must be at least 10 characters"
-        if datetime.strptime(form['new_lecture_date'], '%Y-%m-%d') <= datetime.now():
+        if form['new_lecture_date'] == '':
+            errors["new_lecture_date"] = "Lecture date cannot be empty"
+        elif datetime.strptime(form['new_lecture_date'], '%Y-%m-%d') <= datetime.now():
             errors["new_lecture_date"] = "Lecture date cannot be in the past"
         return errors
 
 class Subject(models.Model):
 	name = models.CharField(max_length=45)
 	url = models.TextField()
-	lecture_date = models.DateTimeField()
+	lecture_date = models.DateTimeField(null=True)
 	description = models.TextField()
 	teacher = models.ForeignKey(User, related_name="teacher_subjects",on_delete = models.CASCADE)
 	enrolled_students = models.ManyToManyField(Student, related_name="enrolled_subjects")
@@ -107,7 +111,9 @@ class AssignmentManager(models.Manager):
 			errors['title'] = "Title must be at least 3 characters"
 		if len(form['description']) < 4:
 			errors['description'] = "Description must be at least 4 characters"
-		if datetime.strptime(form['due_date'], '%Y-%m-%d') <= datetime.now():
+		if form['due_date'] == '':
+			errors["due_date"] = "Due date cannot be empty"
+		elif datetime.strptime(form['due_date'], '%Y-%m-%d') <= datetime.now():
 			errors["due_date"] = "Due date cannot be in the past"
 		return errors
 
@@ -117,8 +123,10 @@ class AssignmentManager(models.Manager):
 			errors['new_title'] = "Title must be at least 3 characters"
 		if len(form['new_description']) < 4:
 			errors['new_description'] = "Description must be at least 4 characters"
-		if datetime.strptime(form['new_due_date'], '%Y-%m-%d') <= datetime.now():
-			errors['new_due_date'] = "Due date cannot be in the past"
+		if form['new_due_date'] == '':
+			errors["new_due_date"] = "Due date cannot be empty"
+		elif datetime.strptime(form['new_due_date'], '%Y-%m-%d') <= datetime.now():
+			errors["new_due_date"] = "Due date cannot be in the past"
 		return errors
 
 class Assignment(models.Model):
