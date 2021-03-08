@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, HttpResponse
 from .models import User, UserManager,StudentManager, Student,SubjectManager,Subject, AssignmentManager, Assignment, MessageManager, Message
 from django.contrib import messages
 import bcrypt
+import json
+from django.http import HttpResponse, JsonResponse
 # Create your views here.
 
 #GET
@@ -244,15 +246,19 @@ def create_subject(request):
         user = User.objects.get(id=request.session['user_id'])
         request.session['user_id'] = user.id
         request.session['user_name']=f"{user.first_name}"
-        subject = Subject.objects.create(
-            name=request.POST['name'],
-            url=request.POST['url'],
-            lecture_date=request.POST['lecture_date'],
-            description=request.POST['description'],
-            teacher=user
-        )
-        request.session['subject_id'] = subject.id
-        return redirect('/profile')
+        name = request.POST.get('name')
+        url = request.POST.get('url')
+        lecture_date = request.POST.get('lecture_date')
+        description = request.POST.get('description')
+        subject_model, created = Subject.objects.get_or_create(name=name,url=url,lecture_date=lecture_date,description=description,teacher=user)
+        subject_model.save()
+        request.session['subject_id'] = subject_model.id
+        # return HttpResponse("It worked!")
+        context = {
+            "user": user,
+            "subject": subject_model
+        }
+        return render(request, "profile_snippet.html", context)
     return redirect("/")
 
 
