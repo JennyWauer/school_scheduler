@@ -15,6 +15,7 @@ urlpatterns = [
 	path('assignments/<int:assignment_id>/edit',views.edit_assignment),
 	path('assignments/<int:assignment_id>/update', views.update_assignment),
 	path('assignments/<int:assignment_id>/delete', views.delete_assignment),
+	path('cancel_edit', views.cancel_edit), 
 	path('login', views.user_login),
 	path('all_classes',views.all_classes),
 	path('add_student',views.add_student),

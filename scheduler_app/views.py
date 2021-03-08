@@ -21,8 +21,19 @@ def logout(request):
 	request.session.flush()
 	return redirect('/')
 
-def all_class(ruqest):
-	return render (request, 'all_classes.html')
+def cancel_edit(request):
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            subject_id=request.session['subject_id']
+            context = {
+                'user': user[0],
+                'subject': Subject.objects.get(id=subject_id),
+                'assignments':Assignment.objects.all(),
+                'subject_id': subject_id
+            }
+            return render(request, 'class_page.html',context)
+        return redirect('/')
 
 def roster_list(request, subject_id):
     if 'user_id' in request.session:
@@ -66,6 +77,8 @@ def subject_page(request, subject_id):
             }
             return render(request, 'class_page.html', context)
     return redirect('/')
+
+
 
 
 def edit_subject(request, subject_id):
