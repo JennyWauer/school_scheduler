@@ -54,11 +54,11 @@
                 <div class="card-body">
                     <h3>Add Assignment</h3>
                     {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
                     {% endif %}
                     <form action="/create_assignment/{{subject.id}}" method="post">
                         {% csrf_token %}
@@ -67,7 +67,6 @@
                                 id="inputGroup-sizing-default">Title:</span>
                             <input type="text" class="form-control" id="floatingPassword" name="title">
                         </div>
-
                         <div class="form-group mb- date">
                             <span class="input-group-text assignment-form-label" id="inputGroup-sizing-default">Due
                                 Date:</span>
@@ -89,70 +88,68 @@
 
     </div>
     </div>
+    <div> 
+        <h1>Add Student</h1>
+        {% if messages %}
+		<ul>
+			     {% for message in messages %}
+			        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+			    {% endfor %}
+		</ul>
+		{% endif %}
+        <form action="/add_student" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="exampleFormControlInput1" name="first_name"
+                        placeholder="First Name">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                </div>
+                <input class="btn btn-primary" type="submit" value="Add Student"> 
+                <!-- <button type="button" class="btn btn-primary">Add Student</button>  -->
+            </div>
+        </form>
+    </div>
 
 
-    <!-- <div class="starter-template text-center py-5 px-3">
-			<div class="card">
-				<div class="card-body">
-					<h2>Add a Student</h2>
-						{% if messages %}
-							<ul class="messages">    
-    						{% for message in messages %}    
-       							<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-   							{% endfor %}
-							</ul>
-						{% endif %} 
-						
-						<form action="/add_student" method="POST">
-							{% csrf_token %}
-							<div class="input-group mb-3">
-								<span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
-								<input type="text" class="form-control" id="floatingPassword" name="first_name" placeholder="First Name">
-							</div>
-							<div class="input-group mb-3">
-								<span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
-								<input type="text" class="form-control" id="floatingPassword" name="last_name" placeholder="Last Name">
-							</div>
-							<button class="btn btn-primary" type="submit">Submit</button>
-						</form>
-					</div>
-				</div>
-			</div>
-    </div> -->
 
 
     <!-- Modal -->
-    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Login</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
                 <form action="/add_student" method="POST">
                     {% csrf_token %}
                     <div class="modal-body">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1" name="first_name" placeholder="First Name">
-                            </div>
-                            <div class="mb-3">
-                                <label  class="form-label">Last Name</label>
-                                <input type="text" class="form-control"  name="last_name"  placeholder="last_name">
-                            </div>
-                            <input class="btn btn-primary" type="submit" value="Submit"> -->
-    <!-- <button type="button" class="btn btn-primary">Login</button> -->
-    <!-- </div>
+                        <div class="mb-3">
+                            <label for="exampleFormControlInput1" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="exampleFormControlInput1" name="first_name"
+                                placeholder="First Name">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="last_name" placeholder="last_name">
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Submit"> 
+                        <button type="button" class="btn btn-primary">Login</button> 
+                    </div>
                     <div class="modal-footer">
-                        <a class="dropdown-item" href="/add">New around here? Sign up</a> -->
-    <!-- <a class="dropdown-item" href="#">Forgot password?</a> -->
-    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a class="dropdown-item" href="/add">New around here? Sign up</a> 
+                        <a class="dropdown-item" href="#">Forgot password?</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
