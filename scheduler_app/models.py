@@ -38,7 +38,7 @@ class User(models.Model):
 
 
 class StudentManager(models.Manager):
-    def validate(self, form):
+    def student_validate(self, form):
         errors = {}
         # if form['first_name'] == 'first_name':
         if len(form['first_name']) < 2:

@@ -17,6 +17,7 @@ def add_user(request):
 def roster_page(request):
 	return render(request, 'roster.html')
 
+
 def logout(request):
 	request.session.flush()
 	return redirect('/')
@@ -50,7 +51,6 @@ def roster_list(request, subject_id):
     return redirect('/')
 
 
-
 def profile(request):
     if 'user_id' in request.session:
         user = User.objects.filter(id=request.session['user_id'])
@@ -62,6 +62,26 @@ def profile(request):
             }
             return render(request, 'profile.html', context)
     return redirect('/')
+
+#GET - go back to subject page from roster
+def go_back_to_subject_page(request):
+    if 'user_id' in request.session:
+        user = User.objects.filter(id=request.session['user_id'])
+        if user:
+            print("Testing")
+            subject_id = request.session['subject_id'] 
+            context = {
+                'user': user[0],
+                'subject': Subject.objects.get(id=subject_id),
+                'assignments':Assignment.objects.all(),
+                'subject_id': subject_id
+            }
+            return render(request, 'class_page.html', context)
+    return redirect('/')
+
+
+
+
 
 def subject_page(request, subject_id):
     if 'user_id' in request.session:
@@ -294,11 +314,11 @@ def delete_subject(request, subject_id):
 
 def create_assignment(request, subject_id):
 	errors = Assignment.objects.validate(request.POST)
-
+	subject = Subject.objects.get(id=subject_id)
 	if len(errors):
 		for key, value in errors.items():
 			messages.error(request, value)
-		return redirect('/subject_page')
+		return redirect(f'/subjects/{subject.id}')
 	print('have we gotten this far?')
 	print(subject_id)
 	user = User.objects.get(id=request.session['user_id'])
@@ -358,7 +378,6 @@ def delete_assignment(request, assignment_id):
 #Parent Functions
 def parent(request, user_id):
     if 'user_id' in request.session:  #Is the user logged in
-
         this_user = User.objects.filter(id=request.session['user_id']),
         context = {
                 'user': User.objects.get(id=request.session['user_id']), #create instance of user to add to record
@@ -406,21 +425,24 @@ def delete_inbox_message(request, id):
 	return redirect('/profile')
 
 def delete_sent_message(request, id):
-	destroyed = Messages.objects.get(id=id)
+	destroyed = Message.objects.get(id=id)
 	user = User.objects.get(id=request.session['user_id'])
 	if destroyed.sender == user:
 		destroyed.delete()
 	return redirect('/profile')
 
 
-
 # CREATES A NEW STUDENT IN THE ROSTER
 def add_student(request):
     print('Can I add a student to the db? ')
+    subject_id=request.session['subject_id'] 
     if request.method == "POST":
-        error = Student.objects.validate(request.POST)
-        if error:
-            messages.error(request, error)
+        errors = Student.objects.student_validate(request.POST)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+        # if error:
+        #     messages.error(request, error)
             return redirect(f'/subjects/{subject_id}')
         this_user = User.objects.get(id=request.session['user_id'])
         add_new_student = Student.objects.create(

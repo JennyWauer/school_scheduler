@@ -35,4 +35,5 @@ urlpatterns = [
 	path('delete_sent_message/<int:id>', views.delete_sent_message),
 	path('login_reg', views.login_reg),
 	path('all_classes', views.all_classes),
+	path('go_to_subject',views.go_back_to_subject_page)
 ]

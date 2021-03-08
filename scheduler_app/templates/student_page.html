@@ -27,7 +27,6 @@
 					<th>Description</th>
 					<th>Teacher</th>
 					<th>Due Date</th>
-					<th>Action </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -38,8 +37,7 @@
 					<td>{{assignment.title}}</td>
 					<td>{{assignment.description}}</td>
 					<td>{{assignment.teacher.first_name}} {{assignment.teacher.last_name}}</td>
-					<td>{{assignment.due_date}}</td>
-					<td><a href ="inbox/{{user.id}}">Send Message</a></td>
+					<td>{{assignment.due_date|date:'Y-m-d'}}</td>
 				</tr>
 					{% endfor %}
 				{% endfor %}
