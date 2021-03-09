@@ -14,7 +14,7 @@
 </head>
 <body>
 	<header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
-		<h1>My Classes</h1>
+		<h2>My Classes</h2>
 		<a class="ml-auto nav-link p-2" href="/profile">Home</a> |
 		<a class="nav-link p-2" href="/roster/{{subject_id}}">Class Roster</a>
 		<a class="btn ml-1 inbox-btn" href="inbox/{{user.id}}">Inbox</a>
@@ -41,45 +41,11 @@
 						<td>Description</td>
 						<td>Lecture</td>
 						<td><a class="table-link" href="/edit_assign">Edit</a> | <a class="table-link" href="/delete/{{student.id}}">Delete</a> | <a class="table-link" href="inbox/{{student.id}}">Send Messages</a></td>
-						<!-- "/edit_assign/{{assignment.id}}/update" -->
 					</tr>
 				{% endfor %}
 			</tbody>
 		</table>
 	</div>
 			
-		<!-- <div class="starter-template text-center py-5 px-3">
-			<div class="card">
-				<div class="card-body">
-					<h2>Add a Student</h2>
-						{% if messages %}
-							<ul class="messages">    
-    						{% for message in messages %}    
-       							<li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-   							{% endfor %}
-							</ul>
-						{% endif %} 
-
-						<form action="/add_student" method="POST">
-							{% csrf_token %}
-							<div class="input-group mb-3">
-								<span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
-								<input type="text" class="form-control" id="floatingPassword" name="first_name" placeholder="First Name">
-							</div>
-							<div class="input-group mb-3">
-								<span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
-								<input type="text" class="form-control" id="floatingPassword" name="last_name" placeholder="Last Name">
-							</div>
-							<div class="input-group mb-3">
-								<label class="input-group-text" for="inputGroupSelect01" id="inputGroup-sizing-default" name="subject">Subject</label>
-								<input type="text" class="form-control" id="floatingPassword" name="skill_level"> 
-								<select class="form-select" id="inputGroupSelect01" name="subject" >
-									<option value="{{subject.id}}" selected>Choose...</option>
-								</select> 
-							</div>
-							<button class="btn btn-primary" type="submit">Submit</button>
-						</form>
-					</div>
-				</div>  -->
 </body>
 </html>
