@@ -15,12 +15,11 @@
 	<script src="{% static 'js/main.js' %}"></script>
 </head>
 <body>
-    <div class="container">
-		<div>
-			<a class="btn btn-outline-primary" href="/profile" role="button">Home</a>
-			<a class="btn btn-outline-primary" href="/logout" role="button">Logout</a>
-		</div>
-        <h2> {{this_student.first_name}}'s Assignment List </h2>
+    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+        <h2>{{this_student.first_name}}'s Assignment List </h2>
+        <a class="btn ml-auto inbox-btn" href="/inbox/{{user.id}}">Inbox</a>
+        <a href="/logout" class="btn ml-1 logout">Logout</a>
+    </header>
         <p>This table lists all of the assignments for one student.</p>            
         <table class="table table-striped">
 			<thead>
