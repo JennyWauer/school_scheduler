@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect, HttpResponse
 from .models import User, UserManager,StudentManager, Student,SubjectManager,Subject, AssignmentManager, Assignment, MessageManager, Message
 from django.contrib import messages
 import bcrypt
-import json
-from django.http import HttpResponse, JsonResponse
 # Create your views here.
 
 #GET
@@ -269,30 +267,26 @@ def delete_sent_message(request, id):
 
 #SUBJECT METHOD
 def create_subject(request):
-    errors = Subject.objects.validate(request.POST)
-
-    if len(errors):
-        for key, value in errors.items():
-            messages.error(request, value)
-        return redirect('/profile')
-    else:
-        user = User.objects.get(id=request.session['user_id'])
-        # request.session['user_id'] = user.id
-        request.session['user_name']=f"{user.first_name}"
-        name = request.POST.get('name')
-        url = request.POST.get('url')
-        lecture_date = request.POST.get('lecture_date')
-        description = request.POST.get('description')
-        subject_model, created = Subject.objects.get_or_create(name=name,url=url,lecture_date=lecture_date,description=description,teacher=user)
-        subject_model.save()
-        request.session['subject_id'] = subject_model.id
-        # return HttpResponse("It worked!")
-        context = {
-            "user": user,
-            "subject": subject_model
-        }
-        return render(request, "profile_snippet.html", context)
-    return redirect("/profile")
+	errors = Subject.objects.validate(request.POST)
+	if errors:
+		for value in errors.values():
+			messages.error(request, value)
+			return render(request, "error_snippet.html")
+	user = User.objects.get(id=request.session['user_id'])
+	request.session['user_name']= user.first_name
+	name = request.POST.get('name')
+	url = request.POST.get('url')
+	lecture_date = request.POST.get('lecture_date')
+	description = request.POST.get('description')
+	subject_model, created = Subject.objects.get_or_create(name=name,url=url,lecture_date=lecture_date,description=description,teacher=user)
+	subject_model.save()
+	request.session['subject_id'] = subject_model.id
+	# return HttpResponse("It worked!")
+	context = {
+		"user": user,
+		"subject": subject_model
+	}
+	return render(request, "profile_snippet.html", context)
 
 
 def update_subject(request, subject_id):
