@@ -14,9 +14,15 @@
 <body>
     <div class="container">
 		<div>
-			<a class="btn btn-outline-primary" href="/profile" role="button">Home</a>
+			{% if user.role == 1 %}
+            <a href="/profile" class="btn ml-auto inbox-btn">Home</a>
+            {% else %}
+            <a href="/parent/{{user.id}}" class="btn ml-auto inbox-btn">Home</a>
+            {% endif %}
+			<!-- <a class="btn btn-outline-primary" href="/profile" role="button">Home</a> -->
 			<a class="btn btn-outline-primary" href="/logout" role="button">Logout</a>
 		</div>
+
         <h2> {{this_student.first_name}}'s Assignment List </h2>
         <p>This table lists all of the assignments for one student.</p>            
         <table class="table table-striped">
