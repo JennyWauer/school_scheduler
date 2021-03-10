@@ -262,26 +262,26 @@ def delete_sent_message(request, id):
 
 #SUBJECT METHOD
 def create_subject(request):
-	errors = Subject.objects.validate(request.POST)
-	if errors:
-		for value in errors.values():
-			messages.error(request, value)
-			return render(request, "error_snippet.html")
-	user = User.objects.get(id=request.session['user_id'])
-	request.session['user_name']= user.first_name
-	name = request.POST.get('name')
-	url = request.POST.get('url')
-	lecture_date = request.POST.get('lecture_date')
-	description = request.POST.get('description')
-	subject_model, created = Subject.objects.get_or_create(name=name,url=url,lecture_date=lecture_date,description=description,teacher=user)
-	subject_model.save()
-	request.session['subject_id'] = subject_model.id
-	# return HttpResponse("It worked!")
-	context = {
-		"user": user,
-		"subject": subject_model
-	}
-	return render(request, "profile_snippet.html", context)
+    errors = Subject.objects.validate(request.POST)
+    if errors:
+        for value in errors.values():
+            messages.error(request, value)
+            return render(request, "error_snippet.html")
+    user = User.objects.get(id=request.session['user_id'])
+    request.session['user_name']= user.first_name
+    name = request.POST.get('name')
+    url = request.POST.get('url')
+    lecture_date = request.POST.get('lecture_date')
+    description = request.POST.get('description')
+    subject_model, created = Subject.objects.get_or_create(name=name,url=url,lecture_date=lecture_date,description=description,teacher=user)
+    subject_model.save()
+    request.session['subject_id'] = subject_model.id
+    # return HttpResponse("It worked!")
+    context = {
+        "user": user,
+        "subject": subject_model
+    }
+    return render(request, "profile_snippet.html", context)
 
 
 def update_subject(request, subject_id):
@@ -307,29 +307,32 @@ def delete_subject(request, subject_id):
     return redirect('/profile')
 
 
-def create_assignment(request, subject_id):
+def create_assignment(request):
     errors = Assignment.objects.validate(request.POST)
+    subject_id = request.POST.get('subject_id')
     subject = Subject.objects.get(id=subject_id)
-    if len(errors):
-        for key, value in errors.items():
+    if errors:
+        for value in errors.values():
             messages.error(request, value)
-        return redirect(f'/subjects/{subject.id}')
-    print('have we gotten this far?')
-    print(subject_id)
+            return render(request, "error_snippet.html")
     user = User.objects.get(id=request.session['user_id'])
     subject = Subject.objects.get(id=subject_id)
-    print('trying to create an assignment?')
-    print('request title', request.POST['title'])
-    print('request due date', request.POST['due_date'])
-    print('request desc', request.POST['description'])
-    assignment = Assignment.objects.create(
-        title=request.POST['title'],
-        due_date=request.POST['due_date'],
-        description=request.POST['description'],
+    title = request.POST.get('title')
+    due_date = request.POST.get('due_date')
+    description = request.POST.get('description')
+    assignment_model, created = Assignment.objects.get_or_create(
+        title=title,
+        due_date=due_date,
+        description=description,
         teacher = user,
         subject=subject    
         )
-    return redirect(f'/subjects/{subject.id}')
+    assignment_model.save()
+    context = {
+        "user": user,
+        "assignment": assignment_model
+    }
+    return render(request, "assignment_snippet.html", context)
 
 def update_assignment(request, assignment_id):
     print('edit this now!')

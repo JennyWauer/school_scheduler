@@ -11,7 +11,7 @@ urlpatterns = [
 	path('subjects/<int:subject_id>/edit', views.edit_subject),
 	path('subjects/<int:subject_id>/update', views.update_subject),
 	path('subjects/<int:subject_id>/delete', views.delete_subject),
-	path('create_assignment/<int:subject_id>', views.create_assignment),
+	path('create_assignment', views.create_assignment),
 	path('assignments/<int:assignment_id>/edit',views.edit_assignment),
 	path('assignments/<int:assignment_id>/update', views.update_assignment),
 	path('assignments/<int:assignment_id>/delete', views.delete_assignment),
