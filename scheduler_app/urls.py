@@ -15,7 +15,7 @@ urlpatterns = [
 	path('assignments/<int:assignment_id>/edit',views.edit_assignment),
 	path('assignments/<int:assignment_id>/update', views.update_assignment),
 	path('assignments/<int:assignment_id>/delete', views.delete_assignment),
-	# path('cancel_edit', views.cancel_edit), 
+	path('cancel_edit', views.cancel_edit), 
 	path('login', views.user_login),
 	path('all_classes',views.all_classes),
 	path('add_student',views.add_student),
@@ -35,5 +35,5 @@ urlpatterns = [
 	path('delete_sent_message/<int:id>', views.delete_sent_message),
 	path('login_reg', views.login_reg),
 	path('all_classes', views.all_classes),
-	# path('go_to_subject',views.go_back_to_subject_page)
+	path('go_to_subject',views.go_back_to_subject_page),
 ]
