@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body class="background">
     <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
         <h2 class="pr-5 mb-0">{{message.subject}}</h2>
@@ -31,17 +33,18 @@
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="Subject">Subject</label>
-                    <input type="text" id="subject" name="subject" class="form-control" >
+                    <input type="text" id="subject" name="subject" class="form-control">
                 </div>
                 <div class="mb-3">
                     <label for="message">Message</label>
-                    <textarea id='message_body' name='message' class="form-control" ></textarea>
+                    <textarea id='message_body' name='message' class="form-control"></textarea>
                 </div>
                 <input type="hidden" id="recipient" name="recipient" value="{{message.sender.id}}">
                 <input type="submit" name="submit" id="submit" value="Reply" class="btn submit">
             </form>
         </div>
     </div>
-   
+
 </body>
+
 </html>

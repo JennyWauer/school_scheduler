@@ -17,7 +17,7 @@
 <body>
     <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm mb-5">
         <h2>{{mysubjects.name}} Roster</h2>
-        <a href="/profile" class="ml-auto nav-link p-2">Home</a> | 
+        <a href="/profile" class="ml-auto nav-link p-2">Home</a> |
         <a class="nav-link p-2" href="/go_to_subject">Class Page</a>
         <a class="btn inbox-btn" href="/inbox/{{user.id}}">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
@@ -38,13 +38,14 @@
                         <!-- This grabs the filtered my students using my user id-->
                         <tr>
                             <td>{{student.first_name}} {{student.last_name}} </td>
-                            <td><a class="table-link" href="/viewstudent/{{student.id}}">Student Page</a> | <a class="table-link" href="/delete/{{student.id}}">Delete </a> </td>
+                            <td><a class="table-link" href="/viewstudent/{{student.id}}">Student Page</a> | <a
+                                    class="table-link" href="/delete/{{student.id}}">Delete </a> </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            
+
         </div>
         <div class="w-50">
             <h2 class="text-center">Assigning Students</h2>
