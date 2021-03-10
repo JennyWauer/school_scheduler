@@ -17,11 +17,11 @@
 <body>
     <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
         <h2 class="pr-5 mb-0">Inbox</h2>
-        {% if user.role == 1 %}
         <a href="/profile" class="btn ml-auto inbox-btn">Home</a>
-        {% else %}
+        <!-- {% if user.role == 1 %} -->
+        <!-- {% else %}
         <a href="/parent/{{user.id}}" class="btn ml-auto inbox-btn">Home</a>
-        {% endif %}
+        {% endif %} -->
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
     <a class="btn compose mt-3 ml-5" href='/new_message'>Compose</a>
