@@ -21,8 +21,8 @@
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
     <div class="d-flex ml-auto mr-auto">
-        <div class="w-50 py-5 px-3" >
-            
+        <div class="w-50 py-5 px-3">
+
             <table class="table table-bordered table-striped table-hover ml-5">
                 <thead>
                     <tr class="table-header">
@@ -33,21 +33,23 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody  id="divSubject">
+                <tbody id="divSubject">
                     {% for subject in user.teacher_subjects.all %}
-                        <tr>
-                            <td><a class="table-link" href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
-                            <td><a href="http://{{subject.url}}" target="_blank">{{ subject.url }}</a></td>
-                            <td>{{ subject.description }}</td>
-                            <td>{{ subject.lecture_date|date:'Y-m-d' }}</td>
-                            <td>
-                                <nav>
-                                    <a class="table-link" href="/subjects/{{ subject.id }}/edit">Edit</a> |
-                                    <a class="table-link" onclick="return confirm('Are you sure you want to delete this class?')" href="/subjects/{{ subject.id }}/delete">Delete</a> |
-                                    <a class="table-link" href="/roster/{{subject.id}}" role="button">Roster</a>
-                                </nav>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td><a class="table-link" href="/subjects/{{subject.id}}">{{ subject.name }}</a></td>
+                        <td><a href="http://{{subject.url}}" target="_blank">{{ subject.url }}</a></td>
+                        <td>{{ subject.description }}</td>
+                        <td>{{ subject.lecture_date|date:'Y-m-d' }}</td>
+                        <td>
+                            <nav>
+                                <a class="table-link" href="/subjects/{{ subject.id }}/edit">Edit</a> |
+                                <a class="table-link"
+                                    onclick="return confirm('Are you sure you want to delete this class?')"
+                                    href="/subjects/{{ subject.id }}/delete">Delete</a> |
+                                <a class="table-link" href="/roster/{{subject.id}}" role="button">Roster</a>
+                            </nav>
+                        </td>
+                    </tr>
                     {% endfor %}
                 </tbody>
             </table>
@@ -73,14 +75,15 @@
                         <div class="form-group mb- date">
                             <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture
                                 Date:</span>
-                            <input type="date" name="lecture_date" class="form-control datepicker" id="lectureDate"/>
+                            <input type="date" name="lecture_date" class="form-control datepicker" id="lectureDate" />
                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                             </span>
                         </div>
                         <div class="form-group mb-3">
                             <span class="input-group-text class-form-label"
                                 id="inputGroup-sizing-default">Description:</span>
-                            <textarea class="form-control" rows="3" cols="20" name="description" id="description"></textarea>
+                            <textarea class="form-control" rows="3" cols="20" name="description"
+                                id="description"></textarea>
                         </div>
                         <button class="btn btn-outline-primary" type="submit" id="addClass">Add Class</button>
                     </form>
@@ -90,7 +93,7 @@
                     <div class="alert alert-warning alert-dismissible fade show">
                         <ul class="messages">
                             {% for message in messages %}
-                                <li>*** {{message}} ***</li>
+                            <li>*** {{message}} ***</li>
                             {% endfor %}
                         </ul>
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -102,7 +105,9 @@
 
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
 </body>

@@ -68,7 +68,6 @@ def go_back_to_subject_page(request):
     if 'user_id' in request.session:
         user = User.objects.filter(id=request.session['user_id'])
         if user:
-            print("Testing")
             subject_id = request.session['subject_id'] 
             context = {
                 'user': user[0],
@@ -84,7 +83,6 @@ def subject_page(request, subject_id):
     if 'user_id' in request.session:
         user = User.objects.filter(id=request.session['user_id'])
         if user:
-            print("Testing")
             request.session['subject_id'] = subject_id
             context = {
                 'user': user[0],
@@ -179,14 +177,12 @@ def new_message(request):
 
 #REGISTER METHOD
 def create_user(request):
-    print(" Can I create a user?!")
     if request.method != "POST":
         return redirect('/')
     errors = User.objects.validate(request.POST)
         #if the dictionary received has errors in it, reject the form, and show the error messages
         # on the template the user was on last
     if len(errors) > 0:
-        print(errors)
         for key, value in errors.items():
             messages.error(request, value)
         return redirect('/register')
@@ -194,7 +190,6 @@ def create_user(request):
         user_pw=request.POST['password']
         # create the hash for the password
         hash_pw=bcrypt.hashpw(user_pw.encode(), bcrypt.gensalt()).decode()
-        print(hash_pw)
         # create user object 
         new_user = User.objects.create(
             first_name=request.POST['first_name'], 
@@ -203,14 +198,12 @@ def create_user(request):
             role = request.POST['role'],
             password=hash_pw,
         )
-        print(new_user)
         # storing user's id so I can track user's interactions on the website 
         request.session['user_id']= new_user.id 
         request.session['first_name'] = new_user.first_name
         request.session['last_name'] = new_user.last_name
         request.session['role'] = new_user.role
     
-        print('Checking User Role 2')
         if new_user.role == "2":
             #return redirect('/parent')
             return redirect(f"/parent/{new_user.id}")
@@ -219,21 +212,17 @@ def create_user(request):
 
 #LOGIN METHOD
 def user_login(request):
-    print('Is this user_login method working?')
     if request.method == 'POST':
         # query to find the user
         logged_user=User.objects.filter(email=request.POST['email'])
 
         if len(logged_user) == 1:
             logged_user = logged_user[0]
-            print(logged_user)
-            print(logged_user.password, request.POST['password'])
 
             if bcrypt.checkpw(request.POST['password'].encode(),logged_user.password.encode()):
                 request.session['user_id'] = logged_user.id 
                 request.session['first_name'] = logged_user.first_name
                 
-                print('Checking User Role 2')
                 if logged_user.role == "2":
                     #return redirect('/parent')
                     return redirect(f"/parent/{logged_user.id}")
@@ -246,7 +235,6 @@ def user_login(request):
             messages.error(request, "Your email does not exist.")
             return redirect ('/register')
         
-        print('Checking User Role 2')
         if logged_user.role == "2":
             #return redirect('/parent')
             return redirect(f"/parent/{logged_user.id}")
@@ -262,26 +250,26 @@ def delete_sent_message(request, id):
 
 #SUBJECT METHOD
 def create_subject(request):
-	errors = Subject.objects.validate(request.POST)
-	if errors:
-		for value in errors.values():
-			messages.error(request, value)
-			return render(request, "error_snippet.html")
-	user = User.objects.get(id=request.session['user_id'])
-	request.session['user_name']= user.first_name
-	name = request.POST.get('name')
-	url = request.POST.get('url')
-	lecture_date = request.POST.get('lecture_date')
-	description = request.POST.get('description')
-	subject_model, created = Subject.objects.get_or_create(name=name,url=url,lecture_date=lecture_date,description=description,teacher=user)
-	subject_model.save()
-	request.session['subject_id'] = subject_model.id
-	# return HttpResponse("It worked!")
-	context = {
-		"user": user,
-		"subject": subject_model
-	}
-	return render(request, "profile_snippet.html", context)
+    errors = Subject.objects.validate(request.POST)
+    if errors:
+        for value in errors.values():
+            messages.error(request, value)
+            return render(request, "error_snippet.html")
+    user = User.objects.get(id=request.session['user_id'])
+    request.session['user_name']= user.first_name
+    name = request.POST.get('name')
+    url = request.POST.get('url')
+    lecture_date = request.POST.get('lecture_date')
+    description = request.POST.get('description')
+    subject_model, created = Subject.objects.get_or_create(name=name,url=url,lecture_date=lecture_date,description=description,teacher=user)
+    subject_model.save()
+    request.session['subject_id'] = subject_model.id
+    # return HttpResponse("It worked!")
+    context = {
+        "user": user,
+        "subject": subject_model
+    }
+    return render(request, "profile_snippet.html", context)
 
 
 def update_subject(request, subject_id):
@@ -307,32 +295,34 @@ def delete_subject(request, subject_id):
     return redirect('/profile')
 
 
-def create_assignment(request, subject_id):
+def create_assignment(request):
     errors = Assignment.objects.validate(request.POST)
+    subject_id = request.POST.get('subject_id')
     subject = Subject.objects.get(id=subject_id)
-    if len(errors):
-        for key, value in errors.items():
+    if errors:
+        for value in errors.values():
             messages.error(request, value)
-        return redirect(f'/subjects/{subject.id}')
-    print('have we gotten this far?')
-    print(subject_id)
+            return render(request, "error_snippet.html")
     user = User.objects.get(id=request.session['user_id'])
     subject = Subject.objects.get(id=subject_id)
-    print('trying to create an assignment?')
-    print('request title', request.POST['title'])
-    print('request due date', request.POST['due_date'])
-    print('request desc', request.POST['description'])
-    assignment = Assignment.objects.create(
-        title=request.POST['title'],
-        due_date=request.POST['due_date'],
-        description=request.POST['description'],
+    title = request.POST.get('title')
+    due_date = request.POST.get('due_date')
+    description = request.POST.get('description')
+    assignment_model, created = Assignment.objects.get_or_create(
+        title=title,
+        due_date=due_date,
+        description=description,
         teacher = user,
         subject=subject    
         )
-    return redirect(f'/subjects/{subject.id}')
+    assignment_model.save()
+    context = {
+        "user": user,
+        "assignment": assignment_model
+    }
+    return render(request, "assignment_snippet.html", context)
 
 def update_assignment(request, assignment_id):
-    print('edit this now!')
     if request.method=='POST':
         subject_id=request.session['subject_id'] 
         errors = Assignment.objects.validate_update(request.POST)
@@ -340,11 +330,8 @@ def update_assignment(request, assignment_id):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect(f'/assignments/{assignment_id}/edit')
-        print('getting subject')
         subject = Subject.objects.get(id=subject_id)
-        print('passing assignment id')
         my_assignment=Assignment.objects.get(id=assignment_id)
-        print('passing title')
         my_assignment.title=request.POST['new_title']
         my_assignment.due_date=request.POST['new_due_date']
         my_assignment.description=request.POST['new_description']
@@ -432,7 +419,6 @@ def delete_sent_message(request, id):
 
 # CREATES A NEW STUDENT IN THE ROSTER
 def add_student(request):
-    print('Can I add a student to the db? ')
     subject_id=request.session['subject_id'] 
     if request.method == "POST":
         errors = Student.objects.student_validate(request.POST)
@@ -467,7 +453,6 @@ def roster_assign(request, student_id):
 
 # DELETE's STUDENT form DB/Roster
 def delete_student (request, student_id):
-    print("I want to delete a student!")
     delete_student=Student.objects.get(id=student_id)
     delete_student.delete()
     subject_id=request.session['subject_id'] 

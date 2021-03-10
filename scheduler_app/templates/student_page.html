@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Page </title>
-    {% load static %}
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Student Page </title>
+	{% load static %}
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-	integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<script src="{% static 'js/main.js' %}"></script>
 </head>
+
 <body class="background">
-    <header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
-        <h2>{{this_student.first_name}}'s Assignment List </h2>
+	<header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
+		<h2>{{this_student.first_name}}'s Assignment List </h2>
 		{% if user.role == 1 %}
-            <a href="/profile" class="ml-auto nav-link p-2">Home</a> |
-            {% else %}
-            <a href="/parent/{{user.id}}" class="ml-auto nav-link p-2">Home</a> |
-            {% endif %}
-        <a class="btn ml-1 inbox-btn" href="/inbox/{{user.id}}">Inbox</a>
-        <a href="/logout" class="btn ml-1 logout">Logout</a>
-    </header>
+		<a href="/profile" class="ml-auto nav-link p-2">Home</a> |
+		{% else %}
+		<a href="/parent/{{user.id}}" class="ml-auto nav-link p-2">Home</a> |
+		{% endif %}
+		<a class="btn ml-1 inbox-btn" href="/inbox/{{user.id}}">Inbox</a>
+		<a href="/logout" class="btn ml-1 logout">Logout</a>
+	</header>
 	<div class="w-50 ml-auto mr-auto mt-5 rounded shadow-sm form-background">
 		<table class="table table-bordered table-striped table-hover">
 			<thead>
@@ -37,8 +39,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for subject in this_student.enrolled_subjects.all  %}
-					{% for assignment in subject.subject_assignments.all %}
+				{% for subject in this_student.enrolled_subjects.all %}
+				{% for assignment in subject.subject_assignments.all %}
 				<tr>
 					<td>{{subject.name}}</td>
 					<td>{{assignment.title}}</td>
@@ -46,13 +48,14 @@
 					<td>{{assignment.teacher.first_name}} {{assignment.teacher.last_name}}</td>
 					<td>{{assignment.due_date|date:'Y-m-d'}}</td>
 				</tr>
-					{% endfor %}
+				{% endfor %}
 				{% endfor %}
 			</tbody>
 		</table>
 
 	</div>
-        
+
 </body>
 </body>
+
 </html>

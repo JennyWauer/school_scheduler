@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of Classes</title>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>List of Classes</title>
 	{% load static %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+		integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
+
 <body>
 	<header id="header" class="bg-white d-flex p-3 align-items-center shadow-sm">
 		<h2>My Classes</h2>
@@ -34,18 +36,22 @@
 			</thead>
 			<tbody>
 				{% for student in all_student %}
-					<tr>
-						<td>Math</td>
-						<td><a class="table-link" href="/student_assign/{{student.id}}"> {{student.first_name}} {{student.last_name}} </a></td>
-						<td>None </td>
-						<td>Description</td>
-						<td>Lecture</td>
-						<td><a class="table-link" href="/edit_assign">Edit</a> | <a class="table-link" href="/delete/{{student.id}}">Delete</a> | <a class="table-link" href="inbox/{{student.id}}">Send Messages</a></td>
-					</tr>
+				<tr>
+					<td>Math</td>
+					<td><a class="table-link" href="/student_assign/{{student.id}}"> {{student.first_name}}
+							{{student.last_name}} </a></td>
+					<td>None </td>
+					<td>Description</td>
+					<td>Lecture</td>
+					<td><a class="table-link" href="/edit_assign">Edit</a> | <a class="table-link"
+							href="/delete/{{student.id}}">Delete</a> | <a class="table-link"
+							href="inbox/{{student.id}}">Send Messages</a></td>
+				</tr>
 				{% endfor %}
 			</tbody>
 		</table>
 	</div>
-			
+
 </body>
+
 </html>
