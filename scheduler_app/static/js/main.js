@@ -12,4 +12,18 @@ $(document).ready(function(){
             }
         });
     });
+
+    $('#assignmentForm').submit(function(event) {
+        event.preventDefault();
+        console.log(event);
+        $.ajax({
+            url: $('#assignmentForm').attr('action'),
+            method: $('#assignmentForm').attr('method'),
+            data: $(this).serialize(),
+            success : function(response) {
+                $('#divAssignment').append(response);
+                $('#assignmentForm').trigger('reset');
+            }
+        });
+    });
 });

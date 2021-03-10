@@ -1,0 +1,11 @@
+<tr>
+    <td class="table-link">{{assignment.title}}</td>
+    <td>{{assignment.due_date|date:'Y-m-d'}}</a></td>
+    <td>{{assignment.description}}</td>
+    <td>
+        <nav>
+            <a class="table-link" href="/assignments/{{ assignment.id }}/edit">Edit</a> |
+            <a class="table-link" href="/assignments/{{ assignment.id }}/delete">Delete</a>
+        </nav>
+    </td>
+</tr>

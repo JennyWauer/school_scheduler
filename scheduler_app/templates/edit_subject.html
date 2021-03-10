@@ -18,7 +18,7 @@
         <h2> Edit {{ subject.name }} Page</h2>
         <a class="ml-auto nav-link p-2" href="/profile">Home</a> |
         <a class="nav-link p-2" href="/all_tasks">Task List</a> |
-        <a class="nav-link p-2"href="/add_student">Add Student</a>
+        <a class="nav-link p-2" href="/add_student">Add Student</a>
         <a class="btn ml-1 inbox-btn" href="/inbox/{{user.id}}">Inbox</a>
         <a href="/logout" class="btn ml-1 logout">Logout</a>
     </header>
@@ -35,22 +35,30 @@
                 <form action="/subjects/{{edit_subject.id}}/update" method="post">
                     {% csrf_token %}
                     <div class="form-group mb-3">
-                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Class Name:</span>
-                        <input type="text" class="form-control" id="floatingPassword" name="new_name" value="{{edit_subject.name}}">
+                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Class
+                            Name:</span>
+                        <input type="text" class="form-control" id="floatingPassword" name="new_name"
+                            value="{{edit_subject.name}}">
                     </div>
                     <div class="form-group mb-3">
-                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture URL:</span>
-                        <input type="text" class="form-control" id="floatingPassword" name="new_url" value="{{edit_subject.url}}">
+                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture
+                            URL:</span>
+                        <input type="text" class="form-control" id="floatingPassword" name="new_url"
+                            value="{{edit_subject.url}}">
                     </div>
                     <div class="form-group mb- date">
-                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture Date:</span>
-                        <input type="date" name="new_lecture_date" value="{{edit_subject.lecture_date|date:'Y-m-d' }}" class="form-control datepicker" />
+                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Lecture
+                            Date:</span>
+                        <input type="date" name="new_lecture_date" value="{{edit_subject.lecture_date|date:'Y-m-d' }}"
+                            class="form-control datepicker" />
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                     <div class="form-group mb-3">
-                        <span class="input-group-text class-form-label" id="inputGroup-sizing-default">Description:</span>
-                        <textarea class="form-control" rows="3" cols="20" name="new_description">{{edit_subject.description}}</textarea>
+                        <span class="input-group-text class-form-label"
+                            id="inputGroup-sizing-default">Description:</span>
+                        <textarea class="form-control" rows="3" cols="20"
+                            name="new_description">{{edit_subject.description}}</textarea>
                     </div>
                     <a href="/profile" role="button" class="btn btn-warning font-weight-bold">Cancel</a>
                     <button class="btn submit" type="submit">Update</button>
